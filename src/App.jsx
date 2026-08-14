@@ -15,8 +15,13 @@ import {
 import ProjectCaseStudy from "./ProjectCaseStudy.jsx";
 
 import avatar from "./assets/zhra-avatar.png";
-import beyondReference from "./assets/beyond-reference.png";
+import beyondPhoto from "./assets/beyond-photo.jpg";
 import profile from "./assets/zhra-profile.png";
+import spotify505Cover from "./assets/media/spotify-505.jpg";
+import siliconValleyPoster from "./assets/media/imdb-silicon-valley.jpg";
+import severancePoster from "./assets/media/imdb-severance.jpg";
+import betterCallSaulPoster from "./assets/media/imdb-better-call-saul.jpg";
+import lastOfUsPoster from "./assets/media/imdb-the-last-of-us.jpg";
 import fcCaseHero from "./assets/case-studies/fc-hero.webp";
 import novaCaseHero from "./assets/case-studies/nova-hero.webp";
 import sportsCaseHero from "./assets/case-studies/sports-hero.webp";
@@ -29,9 +34,30 @@ import lovableIcon from "./assets/tech-icons/lovable.ico";
 import openaiIcon from "./assets/tech-icons/openai.svg";
 import photoshopIcon from "./assets/tech-icons/photoshop.svg";
 import v0Icon from "./assets/tech-icons/v0.png";
+import heroActionsIcon from "./assets/hero-icons/hero-actions.svg";
+import heroBulbIcon from "./assets/hero-icons/hero-bulb.svg";
+import heroDesignSystemIcon from "./assets/hero-icons/hero-design-system.svg";
+import availabilityStatusIcon from "./assets/hero-icons/availability-status.png";
+import waveHandIcon from "./assets/hero-icons/wave-hand.png";
+import addVariableIcon from "./assets/sidebar-icons/add-variable.svg";
+import leftDropdownIcon from "./assets/sidebar-icons/dropdown-left.svg";
+import rightDropdownIcon from "./assets/sidebar-icons/dropdown-right.svg";
+import sidebarLayersIcon from "./assets/sidebar-icons/layers.svg";
+import minimizeIcon from "./assets/sidebar-icons/minimize-ui.svg";
+import moreActionsIcon from "./assets/sidebar-icons/more-actions.svg";
+import workProjectIcon from "./assets/work-icons/project-favicon.svg";
+import workGridViewIcon from "./assets/work-icons/grid-view.png";
+import workListViewIcon from "./assets/work-icons/list-view.svg";
+import traitRocketIcon from "./assets/about-traits/rocket.png";
+import traitCardIndexIcon from "./assets/about-traits/card-index-dividers.png";
+import traitMagnifyingIcon from "./assets/about-traits/magnifying-glass.png";
+import traitDirectHitIcon from "./assets/about-traits/direct-hit.png";
+import traitHighVoltageIcon from "./assets/about-traits/high-voltage.png";
+import dockChevronIcon from "./assets/dock-icons/dock-chevron.svg";
+import dockContactIcon from "./assets/dock-icons/dock-contact.svg";
+import dockFileIcon from "./assets/dock-icons/dock-file.svg";
+import dockHomeIcon from "./assets/dock-icons/dock-home.svg";
 import actionsIcon from "./assets/figma-icons/actions.svg";
-import addVariableIcon from "./assets/figma-icons/add-variable.svg";
-import bulbOnIcon from "./assets/figma-icons/bulb-on.svg";
 import contactIcon from "./assets/figma-icons/contact-01.svg";
 import detailEmailIcon from "./assets/figma-icons/detail-email.png";
 import detailEngineerIcon from "./assets/figma-icons/detail-engineer.png";
@@ -42,8 +68,6 @@ import frameIcon from "./assets/figma-icons/frame.svg";
 import homeIcon from "./assets/figma-icons/home-5.svg";
 import linkedinIcon from "./assets/figma-icons/linkedin.svg";
 import mapbase from "./assets/figma-icons/mapbase.png";
-import minimizeIcon from "./assets/figma-icons/minimize-ui.svg";
-import moreActionsIcon from "./assets/figma-icons/more-actions.svg";
 import pixelatedUnion from "./assets/figma-icons/pixelated-union.svg";
 import projectNovaLogo from "./assets/figma-icons/project-nova-logo.png";
 import removeIcon from "./assets/figma-icons/remove.svg";
@@ -51,7 +75,6 @@ import searchIcon from "./assets/figma-icons/search.svg";
 import searchVisualIcon from "./assets/figma-icons/search-visual.svg";
 import cursorMagicIcon from "./assets/figma-icons/cursor-magic-selection-02.svg";
 import skillVectorUserIcon from "./assets/figma-icons/skill-vector-user.svg";
-import vectorIcon from "./assets/figma-icons/vector.svg";
 
 const pages = ["Index", "Work", "About me", "What I do", "Beyond Work"];
 const rulers = [-1250, -1125, -1000, -875, -750, -625, -500, -375, -250, -125, 0, 125, 250, 375, 500, 625, 750, 875, 1000];
@@ -75,10 +98,31 @@ const mobileSectionOffsets = {
   "Beyond Work": 4820,
 };
 
-function getSectionOffsets() {
-  return typeof window !== "undefined" && window.matchMedia("(max-width: 620px)").matches
-    ? mobileSectionOffsets
-    : sectionOffsets;
+function getSectionOffsets(layoutScale) {
+  if (typeof window === "undefined") return sectionOffsets;
+
+  const selectors = {
+    Work: ".work-stage",
+    "About me": ".about-stage",
+    "What I do": ".what-stage",
+    "Beyond Work": ".beyond-stage",
+  };
+  const renderedOffsets = Object.fromEntries(
+    Object.entries(selectors).map(([page, selector]) => [page, document.querySelector(selector)?.offsetTop]),
+  );
+  const fallbackOffsets = window.matchMedia("(max-width: 620px)").matches ? mobileSectionOffsets : sectionOffsets;
+  const currentOffsets = {
+    Index: 0,
+    ...Object.fromEntries(
+      Object.entries(renderedOffsets).map(([page, offset]) => [page, Number.isFinite(offset) ? offset : fallbackOffsets[page]]),
+    ),
+  };
+
+  if (window.innerWidth <= 1440) return currentOffsets;
+
+  const workspaceWidth = document.querySelector(".workspace")?.clientWidth ?? 926;
+  const scale = layoutScale ?? Math.max(1, workspaceWidth / 926);
+  return Object.fromEntries(Object.entries(currentOffsets).map(([page, offset]) => [page, offset * scale]));
 }
 
 const menuPages = new Set(["Case Study", "Contact"]);
@@ -124,11 +168,34 @@ const cvHref = "https://drive.google.com/file/d/1CQjsnCpRc98YLjF7Cxlk_DkSr52sc5A
 const behanceHref = "https://www.behance.net/zahra_ahmadpour";
 
 const moviePlaylist = [
-  { title: "Her", year: "2013", href: "https://www.imdb.com/title/tt1798709/" },
-  { title: "Arrival", year: "2016", href: "https://www.imdb.com/title/tt2543164/" },
-  { title: "Interstellar", year: "2014", href: "https://www.imdb.com/title/tt0816692/" },
-  { title: "The Social Network", year: "2010", href: "https://www.imdb.com/title/tt1285016/" },
-  { title: "Soul", year: "2020", href: "https://www.imdb.com/title/tt2948372/" },
+  {
+    title: "Silicon Valley",
+    year: "2014",
+    rating: "8.5",
+    poster: siliconValleyPoster,
+    href: "https://www.imdb.com/title/tt2575988/",
+  },
+  {
+    title: "Severance",
+    year: "2022",
+    rating: "8.6",
+    poster: severancePoster,
+    href: "https://www.imdb.com/title/tt11280740/",
+  },
+  {
+    title: "Better Call Saul",
+    year: "2015",
+    rating: "9.0",
+    poster: betterCallSaulPoster,
+    href: "https://www.imdb.com/title/tt3032476/",
+  },
+  {
+    title: "The Last of Us",
+    year: "2023",
+    rating: "8.4",
+    poster: lastOfUsPoster,
+    href: "https://www.imdb.com/title/tt3581920/",
+  },
 ];
 
 const calendarWeekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -222,11 +289,11 @@ const projects = [
 ];
 
 const aboutTraits = [
-  { title: "Detail Driven", icon: searchIcon },
-  { title: "Communication", icon: contactIcon },
-  { title: "Goal oriented", icon: actionsIcon },
-  { title: "Lifelong Learner", icon: bulbOnIcon },
-  { title: "Team Player", icon: skillVectorUserIcon },
+  { title: "Detail Driven", icon: traitMagnifyingIcon },
+  { title: "Communication", icon: traitCardIndexIcon },
+  { title: "Goal oriented", icon: traitDirectHitIcon },
+  { title: "Lifelong Learner", icon: traitRocketIcon },
+  { title: "Team Player", icon: traitHighVoltageIcon },
 ];
 
 const behanceCaseStudies = [
@@ -400,8 +467,33 @@ const projectLayerSections = {
 };
 
 function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject }) {
+  const [mobilePagesOpen, setMobilePagesOpen] = React.useState(false);
+  const pagesPanelRef = React.useRef(null);
   const [activeProjectAnchor, setActiveProjectAnchor] = React.useState("cover");
   const layerSections = openedProject ? projectLayerSections[openedProject.id] ?? [] : [];
+
+  React.useEffect(() => {
+    setMobilePagesOpen(false);
+  }, [activePage, openedProject]);
+
+  React.useEffect(() => {
+    if (!mobilePagesOpen) return undefined;
+
+    function handlePointerDown(event) {
+      if (!pagesPanelRef.current?.contains(event.target)) setMobilePagesOpen(false);
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setMobilePagesOpen(false);
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobilePagesOpen]);
 
   React.useEffect(() => {
     if (!openedProject) return undefined;
@@ -442,14 +534,14 @@ function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject })
       <header className="file-header">
         <div>
           <button type="button" className="file-title">
-            Zhra's Prtfolio <Icon src={dropdownIcon} />
+            Zhra's Prtfolio <Icon src={leftDropdownIcon} />
           </button>
           <p>Drafts</p>
         </div>
         <Icon src={minimizeIcon} />
       </header>
 
-      <section className="pages-panel">
+      <section className="pages-panel" ref={pagesPanelRef}>
         <div className="panel-heading">
           <h2>Pages</h2>
           <div className="heading-actions">
@@ -458,13 +550,32 @@ function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject })
           </div>
         </div>
 
-        <nav className="page-list" aria-label="Pages">
+        <button
+          type="button"
+          className={`mobile-pages-toggle ${mobilePagesOpen ? "is-open" : ""}`}
+          aria-label="Open page sections"
+          aria-expanded={mobilePagesOpen}
+          aria-controls="mobile-page-list"
+          onClick={() => setMobilePagesOpen((current) => !current)}
+        >
+          <span className="hamburger-lines" aria-hidden="true"><i /><i /><i /></span>
+          <span>{pages.includes(activePage) ? activePage : "Explore"}</span>
+        </button>
+
+        <nav
+          className={`page-list ${mobilePagesOpen ? "is-mobile-open" : ""}`}
+          id="mobile-page-list"
+          aria-label="Pages"
+        >
           {pages.map((page) => (
             <button
               key={page}
               type="button"
               className={activePage === page ? "active" : ""}
-              onClick={() => onPageChange(page)}
+              onClick={() => {
+                setMobilePagesOpen(false);
+                onPageChange(page);
+              }}
             >
               {page}
             </button>
@@ -475,7 +586,7 @@ function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject })
       <section className={`layers-panel ${openedProject ? "has-project-layers" : ""}`}>
         <div className="panel-heading">
           <h2>Layers</h2>
-          <Icon src={frameIcon} />
+          <Icon src={sidebarLayersIcon} />
         </div>
 
         {openedProject ? (
@@ -620,7 +731,7 @@ function RightSidebar({ selectedProfile, selectedProject, selectedSkill, onOpenC
         <div className="profile-row">
           <button type="button" className="account-button">
             <img src={avatar} alt="Zhra avatar" />
-            <Icon src={dropdownIcon} />
+            <Icon src={rightDropdownIcon} />
           </button>
           <button type="button" className="contact-button" onClick={onOpenContact}>
             Contact
@@ -635,7 +746,7 @@ function RightSidebar({ selectedProfile, selectedProject, selectedSkill, onOpenC
             Prototype
           </button>
           <button type="button" className="zoom-control">
-            2% <Icon src={dropdownIcon} />
+            2% <Icon src={rightDropdownIcon} />
           </button>
         </div>
       </section>
@@ -653,14 +764,18 @@ function RightSidebar({ selectedProfile, selectedProject, selectedSkill, onOpenC
         <div className="export-controls">
           <div className="select split">
             <span>1x</span>
-            <Icon src={dropdownIcon} />
+            <Icon src={rightDropdownIcon} />
           </div>
           <div className="select">
             <span>PDF</span>
-            <Icon src={dropdownIcon} />
+            <Icon src={rightDropdownIcon} />
           </div>
-          <Icon src={moreActionsIcon} />
-          <Icon src={removeIcon} />
+          <div className="export-icon-control" aria-hidden="true">
+            <Icon src={moreActionsIcon} />
+          </div>
+          <div className="export-icon-control" aria-hidden="true">
+            <Icon src={removeIcon} />
+          </div>
         </div>
 
         <a className="export-button" href={cvHref} target="_blank" rel="noreferrer">
@@ -720,7 +835,7 @@ function ProfileCard({ selected, onSelect }) {
         <img src={profile} alt="Zhra portrait" />
       </div>
       <div className="available-pill">
-        <span className="availability-dot" />
+        <img className="availability-dot" src={availabilityStatusIcon} alt="" />
         <span>Available to Work</span>
       </div>
       {selected ? (
@@ -779,22 +894,19 @@ function BottomDock({ activePage, openedProject, onNavigate, onOpenProject }) {
     <nav className="bottom-dock" aria-label="Portfolio navigation" ref={dockRef}>
       <button
         type="button"
-        className={`dock-item ${activePage === "Index" ? "active" : ""}`}
+        className={`dock-item ${pages.includes(activePage) ? "active" : ""}`}
         title="Home"
         onClick={() => navigateTo("Index")}
       >
-        <Icon src={homeIcon} />
+        <Icon src={dockHomeIcon} className="dock-home-icon" />
       </button>
-      <span className="dock-chevron" aria-hidden="true">
-        <Icon src={dropdownIcon} />
-      </span>
       <button
         type="button"
         className={`dock-item ${activePage === "Case Study" || openedProject ? "active" : ""}`}
         title="Projects"
         onClick={() => navigateTo("Case Study")}
       >
-        <Icon src={fileIcon} />
+        <Icon src={dockFileIcon} className="dock-file-icon" />
       </button>
       <button
         type="button"
@@ -804,7 +916,7 @@ function BottomDock({ activePage, openedProject, onNavigate, onOpenProject }) {
         aria-controls="project-dock-menu"
         onClick={() => setProjectMenuOpen((current) => !current)}
       >
-        <Icon src={dropdownIcon} />
+        <Icon src={dockChevronIcon} className="dock-chevron-icon" />
       </button>
       <button
         type="button"
@@ -812,11 +924,8 @@ function BottomDock({ activePage, openedProject, onNavigate, onOpenProject }) {
         title="Contact"
         onClick={() => navigateTo("Contact")}
       >
-        <Icon src={contactIcon} />
+        <Icon src={dockContactIcon} className="dock-contact-icon" />
       </button>
-      <span className="dock-chevron" aria-hidden="true">
-        <Icon src={dropdownIcon} />
-      </span>
 
       {projectMenuOpen ? (
         <div className="project-dock-menu" id="project-dock-menu" role="menu" aria-label="Project pages">
@@ -858,25 +967,30 @@ function HeroCanvas({ selectedProfile, onSelectProfile }) {
       onMouseLeave={() => setTilt({ x: 0, y: 0 })}
       style={{ "--mx": tilt.x, "--my": tilt.y }}
     >
-      <SkillPill icon={bulbOnIcon} className="innovation-pill">
+      <SkillPill icon={heroBulbIcon} className="innovation-pill">
         Innovation
       </SkillPill>
-      <SkillPill icon={vectorIcon} className="design-pill">
+      <SkillPill icon={heroDesignSystemIcon} className="design-pill">
         Design System
       </SkillPill>
-      <SkillPill icon={actionsIcon} className="workflow-pill">
+      <SkillPill icon={heroActionsIcon} className="workflow-pill">
         AI Workflow
       </SkillPill>
 
       <section className="hero-copy" aria-label="Hero section">
         <p className="section-label">[ Hero Section' ]</p>
         <h1>
-          <span>Hi <span className="wave">{"\u{1F44B}"}</span></span>
+          <span>Hi <img className="wave wave-icon" src={waveHandIcon} alt="" /></span>
           <span>I'm Zhra</span>
           <img className="pixel-title" src={pixelatedUnion} alt="Digital Product Designer" />
         </h1>
         <p className="hero-description">
-          making your world <span className="world-chip"><img src={mapbase} alt="" /></span> a pain free
+          making your world <span className="world-chip" aria-hidden="true">
+            <span className="world-map-track">
+              <img src={mapbase} alt="" />
+              <img src={mapbase} alt="" />
+            </span>
+          </span> a pain free
           <br />
           experience meaningful interactions.
         </p>
@@ -908,13 +1022,61 @@ function HeroCanvas({ selectedProfile, onSelectProfile }) {
   );
 }
 
-function ProjectCard({ project, selected, onSelect, onOpen }) {
+function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", showActiveUser = false }) {
+  function handleOpen() {
+    if (project.external && project.href) {
+      window.open(project.href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    onOpen(project);
+  }
+
+  if (viewMode === "list") {
+    const year = Number(project.details?.Year ?? project.year);
+    const yearsAgo = Number.isFinite(year) ? Math.max(0, new Date().getFullYear() - year) : null;
+    const createdLabel = yearsAgo === null
+      ? "—"
+      : yearsAgo === 0
+        ? "This year"
+        : `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
+    const lastModifiedLabel = project.edited?.startsWith("Edited ")
+      ? project.edited.replace(/^Edited\s+/, "")
+      : createdLabel;
+
+    return (
+      <button
+        type="button"
+        className={`project-card project-list-row ${selected ? "is-selected" : ""}`}
+        onClick={() => onSelect(project)}
+        onDoubleClick={handleOpen}
+        data-project-id={project.id}
+        aria-pressed={selected}
+      >
+        <span className="project-list-name-cell">
+          <span className={`project-list-thumbnail ${project.preview ? "has-image" : ""}`}>
+            {project.preview ? <img src={project.preview} alt="" /> : null}
+            <span className="project-list-file-icon" aria-hidden="true">
+              <Icon src={workProjectIcon} />
+            </span>
+          </span>
+          <strong>{project.title}</strong>
+        </span>
+        <span className="project-list-date">{lastModifiedLabel}</span>
+        <span className="project-list-date">{createdLabel}</span>
+        <span className="project-list-active">
+          {showActiveUser ? <img src={avatar} alt="Zhra is active in this file" /> : null}
+        </span>
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"
       className={`project-card ${selected ? "is-selected" : ""}`}
       onClick={() => onSelect(project)}
-      onDoubleClick={() => onOpen(project)}
+      onDoubleClick={handleOpen}
       data-project-id={project.id}
       aria-pressed={selected}
     >
@@ -923,11 +1085,14 @@ function ProjectCard({ project, selected, onSelect, onOpen }) {
       </div>
       <div className="project-card-footer">
         <span className="project-card-icon">
-          <Icon src={vectorIcon} />
+          <Icon src={workProjectIcon} />
         </span>
-        <span>
+        <span className="project-card-copy">
           <strong>{project.title}</strong>
           <em>{project.edited}</em>
+        </span>
+        <span className="project-card-kind">
+          {project.workType === "case-studies" ? "Case Study" : "Project"}
         </span>
       </div>
     </button>
@@ -935,31 +1100,134 @@ function ProjectCard({ project, selected, onSelect, onOpen }) {
 }
 
 function WorkCanvas({ selectedProject, onSelectProject, onOpenProject }) {
+  const [filter, setFilter] = React.useState("projects");
+  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [viewMode, setViewMode] = React.useState("grid");
+  const featuredProjects = projects.slice(0, 3).map((project) => ({ ...project, workType: "projects" }));
+  const featuredCaseStudies = behanceCaseStudies.map((item) => ({
+    ...item,
+    edited: `${item.category} / ${item.year}`,
+    workType: "case-studies",
+    external: true,
+    logo: null,
+    details: {
+      Industry: item.category,
+      Platform: "Behance Case Study",
+      Year: item.year,
+      Role: "Product Designer",
+    },
+  }));
+  const allFeaturedWork = [...featuredProjects, ...featuredCaseStudies];
+  const filterOptions = [
+    { id: "all", label: "All files" },
+    { id: "projects", label: "Projects" },
+    { id: "case-studies", label: "Case Studies" },
+  ];
+  const activeFilter = filterOptions.find((option) => option.id === filter) ?? filterOptions[1];
+  const visibleProjects = filter === "all"
+    ? allFeaturedWork
+    : allFeaturedWork.filter((project) => project.workType === filter);
+
   return (
-    <section className="work-stage" aria-label="Featured work">
+    <section
+      className={`work-stage ${viewMode === "grid" && visibleProjects.length > 4 ? "is-expanded-grid" : ""}`}
+      aria-label="Featured work"
+    >
       <header className="work-header">
         <p className="section-label work-label">[ Featured work ]</p>
         <div className="work-controls" aria-label="Work filters">
-          <button type="button" className="work-filter">
-            All files <Icon src={dropdownIcon} />
-          </button>
-          <button type="button" className="view-toggle active" title="Grid view">
-            <Icon src={frameIcon} />
-          </button>
-          <button type="button" className="view-toggle" title="List view">
-            <Icon src={actionsIcon} />
-          </button>
+          <div
+            className="work-filter-shell"
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setIsFilterOpen(false);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setIsFilterOpen(false);
+            }}
+          >
+            <button
+              type="button"
+              className={`work-filter ${isFilterOpen ? "is-open" : ""}`}
+              onClick={() => setIsFilterOpen((open) => !open)}
+              aria-haspopup="menu"
+              aria-expanded={isFilterOpen}
+              aria-controls="featured-work-filter-menu"
+            >
+              <span>{activeFilter.label}</span>
+              <Icon src={dropdownIcon} className="work-filter-chevron" />
+            </button>
+
+            {isFilterOpen ? (
+              <div id="featured-work-filter-menu" className="work-filter-menu" role="menu">
+                {filterOptions.map((option) => {
+                  const count = option.id === "all"
+                    ? allFeaturedWork.length
+                    : allFeaturedWork.filter((project) => project.workType === option.id).length;
+
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      className={filter === option.id ? "is-active" : ""}
+                      onClick={() => {
+                        setFilter(option.id);
+                        setIsFilterOpen(false);
+                      }}
+                      role="menuitemradio"
+                      aria-checked={filter === option.id}
+                    >
+                      <span>{option.label}</span>
+                      <em>{String(count).padStart(2, "0")}</em>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="view-switch" role="group" aria-label="Work view">
+            <button
+              type="button"
+              className={`view-toggle ${viewMode === "grid" ? "active" : ""}`}
+              title="Grid view"
+              aria-label="Grid view"
+              aria-pressed={viewMode === "grid"}
+              onClick={() => setViewMode("grid")}
+            >
+              <Icon src={workGridViewIcon} />
+            </button>
+            <button
+              type="button"
+              className={`view-toggle ${viewMode === "list" ? "active" : ""}`}
+              title="List view"
+              aria-label="List view"
+              aria-pressed={viewMode === "list"}
+              onClick={() => setViewMode("list")}
+            >
+              <Icon src={workListViewIcon} />
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="project-grid">
-        {projects.map((project) => (
+      <div className={`project-grid ${viewMode === "list" ? "is-list-view" : "is-grid-view"}`}>
+        {viewMode === "list" ? (
+          <div className="project-list-header" aria-hidden="true">
+            <span>Name</span>
+            <span>Last modified</span>
+            <span>Created</span>
+            <span>Active in file</span>
+          </div>
+        ) : null}
+        {visibleProjects.map((project, index) => (
           <ProjectCard
             key={project.id}
             project={project}
             selected={selectedProject?.id === project.id}
             onSelect={onSelectProject}
             onOpen={onOpenProject}
+            viewMode={viewMode}
+            showActiveUser={index === Math.min(2, visibleProjects.length - 1)}
           />
         ))}
       </div>
@@ -1271,63 +1539,67 @@ function BeyondCanvas() {
       <div
         className="beyond-photo-card"
         data-scroll-reveal="left"
-        style={{ backgroundImage: `url(${beyondReference})`, "--reveal-delay": "100ms" }}
+        style={{ backgroundImage: `url(${beyondPhoto})`, "--reveal-delay": "100ms" }}
         aria-label="Zhra working"
       />
 
       <a
         className="beyond-playlist-card spotify-playlist-card"
-        href="https://open.spotify.com/"
+        href="https://open.spotify.com/track/0BxE4FqsDD1Ot4YuBXwAPp?si=iSnkzmfaQCS8mA-mIakKbw&utm_source=copy-link&rowId=f44b7b3e908fe7e4"
         target="_blank"
         rel="noreferrer"
-        aria-label="Open Spotify playlist"
+        aria-label="Open 505 by Arctic Monkeys on Spotify"
         data-scroll-reveal="right"
         style={{ "--reveal-delay": "160ms" }}
       >
-        <div className="spotify-card-topline">
-          <SpotifyMark />
-          <span>ON REPEAT</span>
-        </div>
-        <div className="spotify-card-copy">
-          <small>Creative frequency</small>
-          <strong>Focus Flow</strong>
-          <p>Dreamy beats for deep work and tiny breakthroughs.</p>
-        </div>
-        <div className="spotify-visual" aria-hidden="true">
-          <span className="spotify-disc"><i /></span>
-          <span className="sound-wave"><i /><i /><i /><i /><i /></span>
-        </div>
-        <div className="spotify-progress" aria-hidden="true">
+        <div className="spotify-album-disc" aria-hidden="true">
+          <img src={spotify505Cover} alt="" />
           <span />
+        </div>
+        <span className="spotify-player-tab" aria-hidden="true"><i /></span>
+        <div className="spotify-corner-mark">
+          <SpotifyMark />
+          <span>Spotify</span>
+        </div>
+        <div className="spotify-player-copy">
+          <span className="spotify-mini-wave" aria-hidden="true"><i /><i /><i /><i /></span>
+          <small>Arctic Monkeys</small>
+          <strong>505</strong>
+          <div className="spotify-time"><span>2:31</span><i>/</i><span>4:13</span></div>
         </div>
       </a>
 
       <section
         className="beyond-playlist-card movie-playlist-card"
-        aria-label="Movie playlist"
+        aria-label="Zhra's IMDb watchlist"
         data-scroll-reveal="right"
         style={{ "--reveal-delay": "230ms" }}
       >
         <div className="movie-card-topline">
           <span className="imdb-mark">IMDb</span>
-          <span>{moviePlaylist.length} FILMS</span>
+          <a
+            className="imdb-list-link"
+            href="https://www.imdb.com/list/ls4176514652/?ref_=ext_shr_lnk"
+            target="_blank"
+            rel="noreferrer"
+          >
+            MY LIST ↗
+          </a>
         </div>
-        <div className="movie-card-copy">
-          <small>Visual bookmarks</small>
-          <strong>Stories that stay</strong>
-        </div>
-        <div className="movie-list" aria-label="Movie links">
-          {moviePlaylist.map((movie, index) => (
+        <div className="movie-poster-grid" aria-label="IMDb title links">
+          {moviePlaylist.map((movie) => (
             <a
               href={movie.href}
               target="_blank"
               rel="noreferrer"
-              className="movie-chip"
+              className="movie-poster-card"
               key={movie.title}
             >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <em>{movie.title}</em>
-              <small>{movie.year} ↗</small>
+              <img src={movie.poster} alt={`${movie.title} poster`} />
+              <span className="movie-poster-copy">
+                <strong>{movie.title}</strong>
+                <small><i>★</i> {movie.rating}<em>{movie.year}</em></small>
+              </span>
             </a>
           ))}
         </div>
@@ -1603,7 +1875,27 @@ function Workspace({
   const workspaceRef = React.useRef(null);
   const [aboutRevealCount, setAboutRevealCount] = React.useState(0);
   const [rulerScrollTop, setRulerScrollTop] = React.useState(0);
+  const [layoutScale, setLayoutScale] = React.useState(1);
   const isMenuPage = menuPages.has(activePage);
+
+  React.useLayoutEffect(() => {
+    const workspace = workspaceRef.current;
+    if (!workspace) return undefined;
+
+    function updateLayoutScale() {
+      const nextScale = window.innerWidth > 1440 ? Math.max(1, workspace.clientWidth / 926) : 1;
+      setLayoutScale(Number(nextScale.toFixed(4)));
+    }
+
+    updateLayoutScale();
+    const observer = new ResizeObserver(updateLayoutScale);
+    observer.observe(workspace);
+    window.addEventListener("resize", updateLayoutScale);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateLayoutScale);
+    };
+  }, []);
 
   React.useEffect(() => {
     const workspace = workspaceRef.current;
@@ -1638,7 +1930,7 @@ function Workspace({
     if (openedProject || isMenuPage) return;
     const scrollTop = event.currentTarget.scrollTop;
     setRulerScrollTop(scrollTop);
-    const offsets = getSectionOffsets();
+    const offsets = getSectionOffsets(layoutScale);
     const revealStart = offsets["About me"] - 260;
     const revealStep = 56;
     const nextRevealCount = Math.max(
@@ -1664,7 +1956,12 @@ function Workspace({
   }
 
   return (
-    <main className="workspace" ref={workspaceRef} onScroll={handleScroll}>
+    <main
+      className="workspace"
+      ref={workspaceRef}
+      onScroll={handleScroll}
+      style={{ "--layout-scale": layoutScale }}
+    >
       <TopRuler />
       <div
         className={`canvas-scroll-space ${openedProject ? "has-project-page" : ""} ${isMenuPage ? "has-menu-page" : ""}`}

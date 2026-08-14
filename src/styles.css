@@ -96,8 +96,8 @@ button {
 
 .left-sidebar .figma-icon,
 .right-sidebar .figma-icon {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .file-header {
@@ -566,7 +566,7 @@ button {
 }
 
 .export-panel {
-  padding: 20px 16px 0;
+  padding: 20px 16px 20px;
 }
 
 .profile-detail-panel {
@@ -769,43 +769,64 @@ button {
 }
 
 .export-controls {
-  display: flex;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(0, 1.25fr)
+    minmax(0, 0.75fr)
+    minmax(0, 0.75fr);
   align-items: center;
   gap: 8px;
+  width: 100%;
   margin-top: 25px;
   color: #d6d6d6;
 }
 
-.select {
+.export-controls .select,
+.export-icon-control {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  min-width: 68px;
-  height: 30px;
-  padding: 0 9px;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 0 7px;
   color: #dcdcdc;
-  border: 2px solid #707070;
+  border: 1px solid #707070;
   border-radius: 7px;
   font-size: 12px;
 }
 
-.select.split {
-  min-width: 70px;
-  padding: 0 0 0 9px;
+.export-controls .select {
+  justify-content: space-between;
 }
 
-.select.split svg {
-  width: 34px;
-  height: 28px;
-  padding: 8px 10px;
-  border-left: 2px solid #707070;
+.export-controls .select.split {
+  padding: 0 0 0 8px;
 }
 
-.select.split .figma-icon {
-  width: 34px;
-  height: 28px;
-  padding: 8px 10px;
-  border-left: 2px solid #707070;
+.export-controls .select .figma-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.export-controls .select.split .figma-icon {
+  align-self: stretch;
+  width: 29px;
+  height: 32px;
+  padding: 5px;
+  border-left: 1px solid #707070;
+}
+
+.export-icon-control .figma-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.export-icon-control {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
 }
 
 .export-button {
@@ -816,11 +837,18 @@ button {
   place-items: center;
   color: #eeeeee;
   text-decoration: none;
-  background: #383838;
-  border: 2px solid #4c4c4c;
+  background: transparent;
+  border: 1px solid #4c4c4c;
   border-radius: 6px;
   font-size: 16px;
-  font-weight: 520;
+  font-weight: 400;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.export-button:hover {
+  color: #f2f2f2;
+  background: #555555;
+  border-color: #555555;
 }
 
 .workspace {
@@ -958,7 +986,7 @@ button {
   top: 840px;
   left: 26px;
   width: 900px;
-  min-height: 820px;
+  min-height: 832px;
   padding: 56px 62px 68px;
   overflow: hidden;
   background: #151515;
@@ -969,7 +997,7 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 52px;
 }
 
 .work-label {
@@ -982,47 +1010,209 @@ button {
   gap: 8px;
 }
 
+.work-filter-shell {
+  position: relative;
+  z-index: 12;
+}
+
 .work-filter,
 .view-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 36px;
+  height: 42px;
   color: #efefef;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.04)),
-    rgba(60, 60, 60, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
+  background: #2c2c2c;
+  border: 1px solid #5b5b5b;
+  box-shadow: none;
 }
 
 .work-filter {
-  gap: 8px;
-  padding: 0 14px;
+  min-width: 154px;
+  gap: 10px;
+  padding: 0 13px;
   border-radius: 9px;
-  font-size: 13px;
-  font-weight: 620;
+  font-size: 14px;
+  font-weight: 520;
+}
+
+.work-filter > span {
+  margin-right: auto;
+  white-space: nowrap;
+}
+
+.work-filter-chevron {
+  transition: transform 180ms ease;
+}
+
+.work-filter.is-open .work-filter-chevron {
+  transform: rotate(180deg);
+}
+
+.work-filter-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  width: 200px;
+  padding: 6px;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015)),
+    rgba(35, 35, 37, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(125%);
+  animation: work-filter-enter 160ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.work-filter-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: left;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.work-filter-menu button:hover,
+.work-filter-menu button.is-active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.work-filter-menu button.is-active::before {
+  width: 5px;
+  height: 5px;
+  margin-right: 8px;
+  content: "";
+  background: #2aa8ff;
+  border-radius: 50%;
+}
+
+.work-filter-menu button.is-active span {
+  margin-right: auto;
+}
+
+.work-filter-menu em {
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 560;
+}
+
+.view-switch {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 3px;
+  overflow: hidden;
+  background: #292929;
+  border: 1px solid #555555;
+  border-radius: 4px;
 }
 
 .view-toggle {
-  width: 36px;
-  border-radius: 9px;
+  width: 42px;
+  height: 34px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.view-toggle:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.view-toggle:last-child {
+  margin-left: 0;
+  border-left: 1px solid #555555;
+  border-radius: 0 4px 4px 0;
 }
 
 .view-toggle.active {
-  background: rgba(66, 66, 66, 0.88);
+  position: relative;
+  z-index: 1;
+  background: #464646;
+  box-shadow: none;
+}
+
+.view-toggle:focus,
+.view-toggle:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .work-controls .figma-icon {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
+}
+
+.view-toggle .figma-icon {
+  opacity: 0.62;
+  filter: invert(1) brightness(1.8);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.view-toggle:hover .figma-icon,
+.view-toggle.active .figma-icon {
+  opacity: 1;
 }
 
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 30px 26px;
+}
+
+.project-grid.is-list-view {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 24px 0 18px;
+  background: #151515;
+}
+
+.work-stage.is-expanded-grid {
+  min-height: 1154px;
+}
+
+.work-stage.is-expanded-grid ~ .about-stage {
+  top: 2002px;
+}
+
+.work-stage.is-expanded-grid ~ .what-stage {
+  top: 2822px;
+}
+
+.work-stage.is-expanded-grid ~ .beyond-stage {
+  top: 3662px;
+}
+
+.canvas-scroll-space:has(.work-stage.is-expanded-grid) {
+  min-height: 4510px;
+}
+
+.project-list-header,
+.project-list-row {
+  grid-template-columns: minmax(0, 49fr) minmax(112px, 16fr) minmax(104px, 16fr) minmax(92px, 19fr);
+}
+
+.project-list-header {
+  display: grid;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0 10px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 520;
 }
 
 .project-card {
@@ -1036,6 +1226,12 @@ button {
   border-radius: 18px;
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
   text-align: left;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.project-card:hover {
+  border-color: rgba(255, 255, 255, 0.34);
+  transform: translateY(-2px);
 }
 
 .project-card.is-selected {
@@ -1064,26 +1260,130 @@ button {
 
 .project-card-footer {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
+  grid-template-columns: 30px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   padding: 0 20px;
   background: #2b2b2b;
 }
 
+.project-card-copy {
+  min-width: 0;
+}
+
+.project-card-kind {
+  display: none;
+}
+
 .project-card-icon {
   display: grid;
-  width: 18px;
-  height: 18px;
+  width: 27px;
+  height: 27px;
   place-items: center;
-  background: #149cff;
-  border-radius: 3px;
+  background: transparent;
+  border-radius: 0;
 }
 
 .project-card-icon .figma-icon {
-  width: 13px;
-  height: 13px;
-  filter: brightness(2);
+  width: 27px;
+  height: 27px;
+  filter: none;
+}
+
+.project-grid.is-list-view .project-list-row {
+  display: grid;
+  grid-template-rows: 78px;
+  align-items: center;
+  height: 78px;
+  min-height: 78px;
+  overflow: visible;
+  color: #ffffff;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  transform: none;
+}
+
+.project-grid.is-list-view .project-list-row:hover,
+.project-grid.is-list-view .project-list-row.is-selected {
+  background: #202020;
+  border: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.project-list-name-cell {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding-left: 0;
+}
+
+.project-list-name-cell > strong {
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-list-thumbnail {
+  position: relative;
+  display: block;
+  width: 104px;
+  height: 60px;
+  overflow: hidden;
+  background: #eeeeee;
+  border-radius: 3px;
+}
+
+.project-list-thumbnail > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-list-file-icon {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+}
+
+.project-list-file-icon .figma-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.project-list-date {
+  overflow: hidden;
+  padding-right: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 620;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-list-active {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.project-list-active img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .project-card-footer strong,
@@ -1107,6 +1407,17 @@ button {
   font-size: 12px;
   font-style: normal;
   font-weight: 520;
+}
+
+@keyframes work-filter-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .about-stage {
@@ -1345,8 +1656,8 @@ button {
 }
 
 .about-trait-icon.figma-icon {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
@@ -1385,7 +1696,7 @@ button {
   overflow: hidden;
   padding: 74px 62px 80px;
   background:
-    radial-gradient(circle at 10% 72%, rgba(226, 44, 114, 0.2), transparent 18%),
+    radial-gradient(ellipse 72% 42% at 50% 70%, rgba(226, 44, 114, 0.045), transparent 72%),
     radial-gradient(circle, rgba(255, 255, 255, 0.08) 0.6px, transparent 0.9px),
     #151515;
   background-size: auto, 3px 3px, auto;
@@ -1398,7 +1709,7 @@ button {
   pointer-events: none;
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 22%, rgba(255, 255, 255, 0.02) 52%, transparent),
-    radial-gradient(circle at 2% 82%, rgba(226, 44, 114, 0.13), transparent 20%);
+    radial-gradient(ellipse 84% 34% at 50% 76%, rgba(255, 255, 255, 0.012), transparent 74%);
 }
 
 .what-stage::after {
@@ -1419,7 +1730,7 @@ button {
 .what-stage > .section-label {
   position: relative;
   z-index: 2;
-  margin-bottom: 52px;
+  margin-bottom: 78px;
 }
 
 .mini-label {
@@ -1558,7 +1869,7 @@ button {
   width: 242px;
   height: 228px;
   overflow: hidden;
-  background: rgba(25, 25, 30, 0.52);
+  background: linear-gradient(180deg, rgba(25, 25, 28, 0.94), rgba(19, 19, 22, 0.97));
   border: 2px solid rgba(255, 255, 255, 0.09);
   border-radius: 18px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
@@ -1577,12 +1888,12 @@ button {
 
 .experience-card::before {
   top: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  background: linear-gradient(180deg, rgba(18, 18, 20, 0.86), rgba(18, 18, 20, 0));
 }
 
 .experience-card::after {
   bottom: 0;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  background: linear-gradient(0deg, rgba(16, 16, 18, 0.9), rgba(16, 16, 18, 0));
 }
 
 .timeline-line {
@@ -2318,6 +2629,11 @@ button {
   height: 18px;
 }
 
+.canvas-stage > .skill-pill .figma-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .innovation-pill {
   top: 126px;
   left: 330px;
@@ -2381,6 +2697,14 @@ button {
   vertical-align: 5px;
 }
 
+.wave-icon {
+  display: inline-block;
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  vertical-align: -10px;
+}
+
 .pixel-title {
   display: block;
   width: 320px;
@@ -2392,18 +2716,20 @@ button {
 .hero-description {
   margin: 62px 0 0;
   color: rgba(255, 255, 255, 0.58);
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: 15.5px;
+  font-weight: 430;
+  line-height: 1.78;
 }
 
 .world-chip {
+  --world-map-width: 88px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 20px;
-  margin: 0 8px;
-  vertical-align: -5px;
+  width: 82px;
+  height: 25px;
+  margin: 0 9px;
+  vertical-align: -7px;
   color: transparent;
   overflow: hidden;
   background: rgba(134, 134, 134, 0.45);
@@ -2421,7 +2747,8 @@ button {
 .connect-line {
   margin: 16px 0 0;
   color: rgba(255, 255, 255, 0.56);
-  font-size: 14px;
+  font-size: 15.5px;
+  font-weight: 430;
 }
 
 .profile-card {
@@ -2538,6 +2865,16 @@ button {
   border-radius: 50%;
 }
 
+img.availability-dot {
+  display: block;
+  padding: 0;
+  object-fit: contain;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  flex: 0 0 auto;
+}
+
 .stamp {
   position: absolute;
   z-index: 2;
@@ -2574,29 +2911,29 @@ button {
   bottom: 28px;
   z-index: 14;
   display: grid;
-  grid-template-columns: 35px 26px 35px 26px 35px 26px;
+  grid-template-columns: repeat(4, 48px);
   align-items: center;
-  width: 238px;
-  min-width: 238px;
-  max-width: 238px;
-  height: 48px;
-  min-height: 48px;
-  max-height: 48px;
+  column-gap: 22px;
+  width: 286px;
+  min-width: 286px;
+  max-width: 286px;
+  height: 72px;
+  min-height: 72px;
+  max-height: 72px;
   justify-content: center;
   margin: 0 auto;
   left: var(--left-width);
   right: var(--right-width);
-  padding: 6px 8px;
+  padding: 12px 10px;
   color: #f1f1f1;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.05)),
-    rgba(47, 47, 47, 0.56);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
+  background: rgba(45, 45, 45, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
   box-shadow:
-    0 18px 36px rgba(0, 0, 0, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(18px) saturate(130%);
+    0 20px 42px rgba(0, 0, 0, 0.5),
+    0 7px 18px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(115%);
 }
 
 .dock-item,
@@ -2606,32 +2943,60 @@ button {
 }
 
 .bottom-dock .figma-icon {
-  width: 18px;
-  height: 18px;
+  width: 30px;
+  height: 30px;
 }
 
 .dock-item {
-  width: 31px;
-  height: 31px;
-  border-radius: 8px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  transition: background-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
 }
 
 .dock-item.active {
   color: white;
-  background: #2d9bf0;
+  background: #378fe7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.dock-item:hover,
+.dock-chevron:hover {
+  transform: translateY(-1px);
 }
 
 .dock-chevron {
+  width: 48px;
+  height: 48px;
   color: #eeeeee;
 }
 
-.bottom-dock > span.dock-chevron {
-  opacity: 0.5;
-  pointer-events: none;
+.bottom-dock .dock-home-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.bottom-dock .dock-file-icon,
+.bottom-dock .dock-chevron-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.bottom-dock .dock-contact-icon {
+  width: 35px;
+  height: 35px;
 }
 
 .project-menu-toggle .figma-icon {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-menu-toggle {
+  transform: translateX(-22px);
+}
+
+.project-menu-toggle:hover {
+  transform: translate(-22px, -1px);
 }
 
 .project-menu-toggle.is-open .figma-icon {
@@ -2640,11 +3005,11 @@ button {
 
 .project-dock-menu {
   position: absolute;
-  right: 30px;
+  right: 0;
   bottom: calc(100% + 12px);
   z-index: 20;
   display: grid;
-  width: 238px;
+  width: 286px;
   padding: 7px;
   overflow: hidden;
   color: #f5f5f5;
@@ -3388,12 +3753,12 @@ button {
 
   .beyond-photo-card {
     left: 44px;
-    width: 340px;
+    width: 300px;
   }
 
   .beyond-playlist-card {
-    left: 410px;
-    width: 366px;
+    left: 370px;
+    width: 406px;
   }
 }
 
@@ -3536,8 +3901,8 @@ button {
   .stack-card { width: calc(100% - 336px); }
 
   .beyond-heading { right: 34px; left: 34px; width: auto; }
-  .beyond-photo-card { left: 34px; width: calc(44% - 42px); }
-  .beyond-playlist-card { left: 44%; width: calc(56% - 34px); }
+  .beyond-photo-card { left: 34px; width: calc(38% - 42px); }
+  .beyond-playlist-card { left: 38%; width: calc(62% - 34px); }
 }
 
 /* Phone layout */
@@ -3583,10 +3948,15 @@ button {
     padding: 50px 20px 94px;
   }
   .work-header { margin-bottom: 26px; }
-  .work-controls .view-toggle { display: none; }
-  .work-filter { height: 32px; font-size: 11px; }
+  .work-controls .view-switch { display: none; }
+  .work-filter { min-width: 132px; height: 36px; font-size: 12px; }
+  .work-filter-menu { right: 0; width: 166px; }
   .project-grid { grid-template-columns: 1fr; gap: 18px; }
   .project-card { grid-template-rows: 190px 74px; border-radius: 15px; }
+  .project-grid.is-list-view .project-card { grid-template-columns: 1fr; grid-template-rows: 190px 74px; }
+  .project-grid.is-list-view .project-preview { height: auto; }
+  .project-grid.is-list-view .project-card-footer { grid-template-columns: 30px minmax(0, 1fr); gap: 14px; padding: 0 20px; border-left: 0; }
+  .project-grid.is-list-view .project-card-kind { display: none; }
   .project-card-footer strong { font-size: 14px; }
   .project-card-footer em { font-size: 11px; }
 
@@ -3631,7 +4001,7 @@ button {
     height: 1340px;
     padding: 50px 20px 80px;
   }
-  .what-stage > .section-label { margin-bottom: 50px; }
+  .what-stage > .section-label { margin-bottom: 72px; }
   .skills-frame {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -3650,6 +4020,26 @@ button {
     top: 4820px;
     height: 1220px;
     padding: 48px 20px 80px;
+  }
+
+  .work-stage.is-expanded-grid {
+    min-height: 2270px;
+  }
+
+  .work-stage.is-expanded-grid ~ .about-stage {
+    top: 3210px;
+  }
+
+  .work-stage.is-expanded-grid ~ .what-stage {
+    top: 4310px;
+  }
+
+  .work-stage.is-expanded-grid ~ .beyond-stage {
+    top: 5670px;
+  }
+
+  .canvas-scroll-space:has(.work-stage.is-expanded-grid) {
+    min-height: max(6950px, calc(6424px + 114vw));
   }
   .beyond-heading {
     top: 104px;
@@ -3698,12 +4088,12 @@ button {
 
   .bottom-dock {
     bottom: 12px;
-    width: 238px;
-    min-width: 238px;
-    max-width: 238px;
-    height: 48px;
-    min-height: 48px;
-    max-height: 48px;
+    width: 286px;
+    min-width: 286px;
+    max-width: 286px;
+    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
     transform: none;
   }
 }
@@ -4564,6 +4954,766 @@ button {
   .scroll-cue span::after,
   .hero-copy,
   .profile-card {
+    animation: none;
+  }
+}
+
+/* Requested portfolio refinements */
+.mobile-pages-toggle {
+  display: none;
+}
+
+/* Keep the familiar map, but let the world drift gently through the chip. */
+.world-chip {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(circle at 70% 28%, rgba(255, 255, 255, 0.22), transparent 24%),
+    linear-gradient(135deg, rgba(35, 153, 237, 0.42), rgba(226, 44, 114, 0.18)),
+    #34343a;
+  opacity: 1;
+  animation: world-chip-float 5.6s ease-in-out infinite;
+}
+
+.world-chip::after {
+  position: absolute;
+  inset: 1px;
+  z-index: 2;
+  content: "";
+  border-radius: inherit;
+  box-shadow:
+    inset 7px 0 9px rgba(0, 0, 0, 0.28),
+    inset -5px 0 8px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.world-map-track {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  width: max-content;
+  height: calc(100% - 4px);
+  animation: world-map-drift 10s linear infinite;
+  will-change: transform;
+}
+
+.world-map-track img {
+  width: var(--world-map-width);
+  height: 100%;
+  padding: 1px 4px;
+  object-fit: contain;
+  flex: 0 0 var(--world-map-width);
+  opacity: 0.76;
+}
+
+@keyframes world-map-drift {
+  to { transform: translateX(calc(-1 * var(--world-map-width))); }
+}
+
+@keyframes world-chip-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+/* The postcard now sits below the hero copy and anchors the lower-left corner. */
+.design-postcard {
+  top: 632px;
+  left: 64px;
+  rotate: -2deg;
+}
+
+/* Use the photo's original frame ratio at every breakpoint. */
+.beyond-photo-card {
+  height: auto;
+  aspect-ratio: 1268 / 1442;
+  background-position: center;
+  background-size: cover;
+}
+
+.beyond-photo-card::after {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 1361px) {
+  .beyond-photo-card {
+    width: 330px;
+  }
+
+  .beyond-playlist-card {
+    left: 418px;
+    width: 420px;
+  }
+}
+
+@keyframes postcard-float {
+  0%, 100% { rotate: -2deg; }
+  50% { rotate: -0.8deg; }
+}
+
+/* Spotify player — a dark, branded take on the supplied player reference. */
+.spotify-playlist-card {
+  top: 220px;
+  height: 210px;
+  padding: 0;
+  isolation: isolate;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 50% -26%, rgba(29, 185, 84, 0.28), transparent 48%),
+    radial-gradient(circle at 88% 90%, rgba(29, 185, 84, 0.1), transparent 34%),
+    linear-gradient(150deg, #181a19, #050605 76%);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.38),
+    0 0 30px rgba(29, 185, 84, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.spotify-playlist-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  background:
+    linear-gradient(180deg, transparent 28%, rgba(5, 6, 5, 0.3) 47%, #090a09 68%),
+    linear-gradient(90deg, rgba(29, 185, 84, 0.04), transparent 40% 70%, rgba(29, 185, 84, 0.05));
+  pointer-events: none;
+}
+
+.spotify-album-disc {
+  position: absolute;
+  top: -156px;
+  left: 50%;
+  z-index: 1;
+  width: 270px;
+  height: 270px;
+  overflow: hidden;
+  translate: -50% 0;
+  background: #252527;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.22);
+  animation: spotify-cover-turn 28s linear infinite;
+}
+
+.spotify-album-disc::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    repeating-radial-gradient(circle, transparent 0 17px, rgba(255, 255, 255, 0.035) 18px, transparent 19px),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.18), transparent 34% 68%, rgba(0, 0, 0, 0.15));
+}
+
+.spotify-album-disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotify-album-disc > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  translate: -50% -50%;
+  background: #070807;
+  border: 5px solid rgba(29, 185, 84, 0.82);
+  border-radius: 50%;
+}
+
+.spotify-player-tab {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  z-index: 5;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  translate: -50% 0;
+  background: #111311;
+  border: 4px solid #1db954;
+  border-radius: 50%;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.36), 0 0 18px rgba(29, 185, 84, 0.24);
+}
+
+.spotify-player-tab i {
+  width: 13px;
+  height: 13px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+.spotify-corner-mark {
+  position: absolute;
+  top: 14px;
+  right: auto;
+  left: 15px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.spotify-corner-mark > span:last-child {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 9px;
+  font-weight: 720;
+  letter-spacing: -0.01em;
+}
+
+.spotify-corner-mark .spotify-mark {
+  width: 27px;
+  height: 27px;
+  background: #1db954;
+  box-shadow: 0 0 18px rgba(29, 185, 84, 0.22);
+}
+
+.spotify-corner-mark .spotify-mark span {
+  width: 15px;
+  height: 1.5px;
+  background: #071008;
+}
+
+.spotify-player-copy {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  left: 20px;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  color: #ffffff;
+  text-align: center;
+}
+
+.spotify-mini-wave {
+  display: flex;
+  align-items: end;
+  height: 9px;
+  gap: 2px;
+  margin-bottom: 5px;
+}
+
+.spotify-mini-wave i {
+  width: 1.5px;
+  height: 7px;
+  background: #1ed760;
+  box-shadow: 0 0 7px rgba(30, 215, 96, 0.28);
+  animation: spotify-mini-wave 1.2s ease-in-out infinite alternate;
+}
+
+.spotify-mini-wave i:nth-child(2) { height: 4px; animation-delay: -0.5s; }
+.spotify-mini-wave i:nth-child(3) { height: 9px; animation-delay: -0.8s; }
+.spotify-mini-wave i:nth-child(4) { height: 5px; animation-delay: -0.2s; }
+
+.spotify-player-copy small {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  font-weight: 570;
+}
+
+.spotify-player-copy strong {
+  margin-top: 1px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 760;
+  line-height: 1;
+}
+
+.spotify-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.spotify-time i {
+  color: rgba(255, 255, 255, 0.24);
+  font-style: normal;
+}
+
+@keyframes spotify-cover-turn {
+  to { rotate: 360deg; }
+}
+
+@keyframes spotify-mini-wave {
+  to { transform: scaleY(0.42); }
+}
+
+/* IMDb card — the user's four saved titles in a compact 2 × 2 poster grid. */
+.movie-playlist-card {
+  top: 448px;
+  height: 216px;
+  padding: 16px;
+  background:
+    radial-gradient(circle at 92% -10%, rgba(245, 197, 24, 0.2), transparent 38%),
+    linear-gradient(145deg, #24231f, #111113 72%);
+}
+
+.imdb-list-link {
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 8px;
+  font-weight: 760;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+}
+
+.imdb-list-link:hover {
+  color: #f5c518;
+}
+
+.movie-poster-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.movie-poster-card {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  height: 74px;
+  min-width: 0;
+  overflow: hidden;
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 9px;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.movie-poster-card:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(245, 197, 24, 0.5);
+  transform: translateY(-2px);
+}
+
+.movie-poster-card > img {
+  width: 50px;
+  height: 74px;
+  object-fit: cover;
+}
+
+.movie-poster-copy {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 7px;
+  padding: 7px;
+}
+
+.movie-poster-copy strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 9px;
+  font-weight: 690;
+  line-height: 1.22;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.movie-poster-copy small {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 8px;
+  font-weight: 620;
+}
+
+.movie-poster-copy small > i {
+  margin-right: 3px;
+  color: #f5c518;
+  font-size: 8px;
+  font-style: normal;
+}
+
+.movie-poster-copy small > em {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: normal;
+  font-weight: 520;
+}
+
+/* Large displays: side inspectors gain more visual weight while the canvas scales as one unit. */
+@media (min-width: 1441px) {
+  :root {
+    --left-width: clamp(210px, 14.5vw, 680px);
+    --right-width: clamp(305px, 21vw, 980px);
+  }
+
+  .canvas-scroll-space,
+  .canvas-scroll-space.has-menu-page {
+    width: 926px;
+    max-width: none;
+    zoom: var(--layout-scale, 1);
+  }
+
+  .bottom-dock {
+    bottom: clamp(30px, 2vw, 54px);
+    scale: clamp(1, var(--layout-scale, 1), 1.65);
+    transform-origin: center bottom;
+  }
+
+  .left-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .file-header {
+    height: clamp(84px, 5.1vw, 126px);
+    padding: clamp(20px, 1.45vw, 34px) clamp(18px, 1.25vw, 30px) 0;
+    flex: 0 0 auto;
+  }
+
+  .file-title {
+    font-size: clamp(16px, 0.9vw, 22px);
+  }
+
+  .file-header p {
+    margin-top: clamp(10px, 0.7vw, 17px);
+    font-size: clamp(14px, 0.78vw, 19px);
+  }
+
+  .pages-panel {
+    height: clamp(250px, 15vw, 360px);
+    padding: clamp(22px, 1.5vw, 36px) clamp(18px, 1.25vw, 30px) 0;
+    flex: 0 0 auto;
+  }
+
+  .layers-panel {
+    height: auto;
+    padding: clamp(22px, 1.5vw, 36px) clamp(18px, 1.25vw, 30px) 0;
+    flex: 1 1 auto;
+  }
+
+  .panel-heading h2,
+  .export-heading h2 {
+    font-size: clamp(16px, 0.88vw, 22px);
+  }
+
+  .left-sidebar .figma-icon,
+  .right-sidebar .figma-icon {
+    width: clamp(24px, 1.2vw, 30px);
+    height: clamp(24px, 1.2vw, 30px);
+  }
+
+  .page-list {
+    gap: clamp(7px, 0.5vw, 12px);
+    margin-top: clamp(18px, 1.1vw, 28px);
+  }
+
+  .page-list button {
+    height: clamp(29px, 1.65vw, 40px);
+    padding: 0 clamp(10px, 0.72vw, 18px);
+    font-size: clamp(14px, 0.82vw, 20px);
+    line-height: clamp(29px, 1.65vw, 40px);
+  }
+
+  .profile-strip {
+    height: clamp(150px, 8.4vw, 210px);
+    padding: clamp(24px, 1.55vw, 38px) clamp(22px, 1.45vw, 36px) 0;
+  }
+
+  .account-button img {
+    width: clamp(44px, 2.55vw, 62px);
+    height: clamp(44px, 2.55vw, 62px);
+  }
+
+  .contact-button {
+    width: clamp(92px, 5.1vw, 126px);
+    height: clamp(48px, 2.8vw, 68px);
+    border-radius: clamp(10px, 0.7vw, 16px);
+    font-size: clamp(16px, 0.9vw, 22px);
+  }
+
+  .mode-row,
+  .zoom-control {
+    font-size: clamp(12px, 0.72vw, 17px);
+  }
+
+  .mode-row {
+    margin-top: clamp(16px, 1vw, 25px);
+  }
+
+  .profile-detail-panel,
+  .project-detail-panel {
+    padding: clamp(24px, 1.55vw, 38px) clamp(22px, 1.45vw, 36px) clamp(28px, 1.8vw, 44px);
+  }
+
+  .profile-detail-panel p,
+  .project-description,
+  .profile-fact strong,
+  .project-info-row strong {
+    font-size: clamp(14px, 0.8vw, 20px);
+  }
+
+  .export-panel {
+    padding: clamp(22px, 1.45vw, 36px) clamp(18px, 1.25vw, 30px) clamp(20px, 1.25vw, 30px);
+  }
+
+  .export-controls {
+    gap: clamp(8px, 0.55vw, 14px);
+    margin-top: clamp(25px, 1.45vw, 36px);
+  }
+
+  .export-controls .select,
+  .export-icon-control {
+    height: clamp(36px, 2.15vw, 52px);
+    padding-inline: clamp(7px, 0.48vw, 12px);
+    border-radius: clamp(7px, 0.45vw, 11px);
+    font-size: clamp(12px, 0.72vw, 18px);
+  }
+
+  .export-icon-control {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .export-controls .select.split {
+    padding-right: 0;
+  }
+
+  .export-controls .select .figma-icon,
+  .export-icon-control .figma-icon {
+    width: clamp(24px, 1.25vw, 31px);
+    height: clamp(24px, 1.25vw, 31px);
+  }
+
+  .export-controls .select.split .figma-icon {
+    align-self: stretch;
+    width: clamp(30px, 1.7vw, 42px);
+    height: calc(clamp(36px, 2.15vw, 52px) - 2px);
+    padding: clamp(5px, 0.34vw, 8px);
+  }
+
+  .export-button {
+    height: clamp(36px, 2.15vw, 52px);
+    font-size: clamp(16px, 0.9vw, 22px);
+  }
+
+  .top-ruler {
+    height: clamp(26px, 1.45vw, 36px);
+    font-size: clamp(11px, 0.65vw, 16px);
+  }
+}
+
+@media (max-width: 760px) and (min-width: 621px) {
+  .design-postcard {
+    top: 632px;
+    left: 34px;
+  }
+}
+
+@media (min-width: 621px) {
+  .beyond-photo-card {
+    height: 444px;
+    aspect-ratio: auto;
+  }
+}
+
+/* The home-section navigation becomes a compact hamburger on phones.
+   The desktop-style page dock remains floating at the bottom. */
+@media (max-width: 620px) {
+  .left-sidebar {
+    top: 14px;
+    right: auto;
+    bottom: auto;
+    left: 14px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
+  }
+
+  .pages-panel {
+    position: relative;
+    width: auto;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .mobile-pages-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-width: 118px;
+    height: 44px;
+    gap: 10px;
+    padding: 0 13px;
+    color: #ffffff;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.045)),
+      rgba(35, 35, 38, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 13px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(18px) saturate(125%);
+    font-size: 11px;
+    font-weight: 670;
+  }
+
+  .hamburger-lines {
+    display: grid;
+    width: 18px;
+    gap: 4px;
+  }
+
+  .hamburger-lines i {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 99px;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .mobile-pages-toggle.is-open .hamburger-lines i:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .mobile-pages-toggle.is-open .hamburger-lines i:nth-child(2) { opacity: 0; }
+  .mobile-pages-toggle.is-open .hamburger-lines i:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  .pages-panel .page-list {
+    position: absolute;
+    top: 53px;
+    left: 0;
+    display: none;
+    width: 194px;
+    height: auto;
+    gap: 3px;
+    margin: 0;
+    padding: 7px;
+    overflow: visible;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
+      rgba(25, 25, 28, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 14px;
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(20px) saturate(125%);
+    animation: project-menu-enter 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pages-panel .page-list.is-mobile-open {
+    display: grid;
+  }
+
+  .pages-panel .page-list button {
+    width: 100%;
+    max-width: none;
+    height: 36px;
+    padding: 0 11px;
+    font-size: 11px;
+    line-height: 36px;
+  }
+
+  .workspace {
+    inset: 0;
+  }
+
+  .canvas-scroll-space {
+    min-height: max(6100px, calc(5574px + 114vw));
+  }
+
+  .beyond-stage {
+    height: calc(754px + 114vw);
+  }
+
+  .beyond-photo-card {
+    height: calc(114vw - 46px);
+  }
+
+  .spotify-playlist-card {
+    top: calc(214px + 114vw);
+    height: 250px;
+  }
+
+  .spotify-album-disc {
+    top: -176px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .spotify-player-copy {
+    bottom: 24px;
+  }
+
+  .movie-playlist-card {
+    top: calc(484px + 114vw);
+    height: 250px;
+    padding: 16px;
+  }
+
+  .movie-poster-card,
+  .movie-poster-card > img {
+    height: 83px;
+  }
+
+  .movie-poster-card {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .movie-poster-card > img {
+    width: 52px;
+  }
+
+  .bottom-dock {
+    z-index: 45;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-description,
+  .connect-line {
+    font-size: 14px;
+  }
+
+  .world-chip {
+    --world-map-width: 82px;
+    width: 76px;
+    height: 23px;
+    margin-right: 7px;
+    margin-left: 7px;
+    vertical-align: -6px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-description,
+  .connect-line {
+    font-size: 13.5px;
+  }
+
+  .wave-icon {
+    width: 34px;
+    height: 34px;
+    vertical-align: -9px;
+  }
+
+  .world-chip {
+    --world-map-width: 80px;
+    width: 74px;
+    height: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-chip,
+  .world-map-track,
+  .spotify-album-disc,
+  .spotify-mini-wave i {
     animation: none;
   }
 }

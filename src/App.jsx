@@ -110,7 +110,7 @@ export default function App() {
   }
 
   function handleAppClick(event) {
-    if (event.target.closest?.(".profile-card, .project-card, .what-card, .page-list, .selection-layer-tree, .bottom-dock, .contact-button, .contact-modal")) return;
+    if (event.target.closest?.(".profile-card, .project-card, .project-case-study, .what-card, .page-list, .selection-layer-tree, .bottom-dock, .contact-button, .contact-modal")) return;
     handleClearSelection();
   }
 
@@ -144,7 +144,7 @@ export default function App() {
         selectedSkill={selectedSkill}
         onOpenContact={() => setContactOpen(true)}
       />
-      {selectedProfile || selectedProject || selectedSkill ? (
+      {!openedProject && (selectedProfile || selectedProject || selectedSkill) ? (
         <MobileInspectorSheet
           selectedProfile={selectedProfile}
           selectedProject={selectedProject}

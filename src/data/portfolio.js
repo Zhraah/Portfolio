@@ -119,6 +119,7 @@ const projectLayerSections = {
     { anchor: "cover", label: "Cover" },
     { anchor: "overview", label: "Overview" },
     { anchor: "product", label: "Product Screens" },
+    { anchor: "more-works", label: "More Works" },
   ],
   "sports-automation": [
     { anchor: "cover", label: "Cover" },

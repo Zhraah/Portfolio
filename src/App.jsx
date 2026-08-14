@@ -1,23 +1,14 @@
 import React from "react";
-import {
-  siFigma,
-  siBehance,
-  siDribbble,
-  siFramer,
-  siGoogleanalytics,
-  siInstagram,
-  siJira,
-  siMaze,
-  siMiro,
-  siNotion,
-} from "simple-icons";
+import { siClaude } from "simple-icons/icons";
 
 import ProjectCaseStudy from "./ProjectCaseStudy.jsx";
 
 import avatar from "./assets/zhra-avatar.png";
 import beyondPhoto from "./assets/beyond-photo.jpg";
 import profile from "./assets/zhra-profile.png";
+import imdbLogo from "./assets/media/imdb-logo.png";
 import spotify505Cover from "./assets/media/spotify-505.jpg";
+import spotifyLogo from "./assets/media/spotify-logo.png";
 import siliconValleyPoster from "./assets/media/imdb-silicon-valley.jpg";
 import severancePoster from "./assets/media/imdb-severance.jpg";
 import betterCallSaulPoster from "./assets/media/imdb-better-call-saul.jpg";
@@ -28,12 +19,25 @@ import sportsCaseHero from "./assets/case-studies/sports-hero.webp";
 import bagitCover from "./assets/behance/bagit.jpg";
 import dannaiCover from "./assets/behance/dannai.png";
 import vizhenCover from "./assets/behance/vizhen.png";
-import illustratorIcon from "./assets/tech-icons/illustrator.svg";
+import clickupIcon from "./assets/tech-icons/clickup.png";
+import cssIcon from "./assets/tech-icons/css.png";
+import figmaIcon from "./assets/tech-icons/figma.png";
+import framerProvidedIcon from "./assets/tech-icons/framer-provided.png";
+import githubIcon from "./assets/tech-icons/github.png";
 import higgsfieldIcon from "./assets/tech-icons/higgsfield.ico";
+import htmlIcon from "./assets/tech-icons/html.png";
+import illustratorProvidedIcon from "./assets/tech-icons/illustrator-provided.png";
+import javascriptIcon from "./assets/tech-icons/javascript.png";
+import jiraIcon from "./assets/tech-icons/jira.png";
 import lovableIcon from "./assets/tech-icons/lovable.ico";
+import mazeIcon from "./assets/tech-icons/maze.png";
+import miroIcon from "./assets/tech-icons/miro.png";
+import notionIcon from "./assets/tech-icons/notion.png";
 import openaiIcon from "./assets/tech-icons/openai.svg";
-import photoshopIcon from "./assets/tech-icons/photoshop.svg";
+import photoshopProvidedIcon from "./assets/tech-icons/photoshop-provided.png";
 import v0Icon from "./assets/tech-icons/v0.png";
+import vscodeIcon from "./assets/tech-icons/vscode.png";
+import wixIcon from "./assets/tech-icons/wix.png";
 import heroActionsIcon from "./assets/hero-icons/hero-actions.svg";
 import heroBulbIcon from "./assets/hero-icons/hero-bulb.svg";
 import heroDesignSystemIcon from "./assets/hero-icons/hero-design-system.svg";
@@ -48,25 +52,24 @@ import moreActionsIcon from "./assets/sidebar-icons/more-actions.svg";
 import workProjectIcon from "./assets/work-icons/project-favicon.svg";
 import workGridViewIcon from "./assets/work-icons/grid-view.png";
 import workListViewIcon from "./assets/work-icons/list-view.svg";
+import workFilterArrowIcon from "./assets/work-icons/filter-arrow.svg";
 import traitRocketIcon from "./assets/about-traits/rocket.png";
 import traitCardIndexIcon from "./assets/about-traits/card-index-dividers.png";
 import traitMagnifyingIcon from "./assets/about-traits/magnifying-glass.png";
 import traitDirectHitIcon from "./assets/about-traits/direct-hit.png";
 import traitHighVoltageIcon from "./assets/about-traits/high-voltage.png";
-import dockChevronIcon from "./assets/dock-icons/dock-chevron.svg";
 import dockContactIcon from "./assets/dock-icons/dock-contact.svg";
 import dockFileIcon from "./assets/dock-icons/dock-file.svg";
 import dockHomeIcon from "./assets/dock-icons/dock-home.svg";
+import dockProjectChevronIcon from "./assets/dock-icons/dock-project-chevron.svg";
 import actionsIcon from "./assets/figma-icons/actions.svg";
 import contactIcon from "./assets/figma-icons/contact-01.svg";
 import detailEmailIcon from "./assets/figma-icons/detail-email.png";
 import detailEngineerIcon from "./assets/figma-icons/detail-engineer.png";
 import detailExperienceIcon from "./assets/figma-icons/detail-experience.png";
-import dropdownIcon from "./assets/figma-icons/dropdown.svg";
 import fileIcon from "./assets/figma-icons/frame-2055248468.svg";
 import frameIcon from "./assets/figma-icons/frame.svg";
 import homeIcon from "./assets/figma-icons/home-5.svg";
-import linkedinIcon from "./assets/figma-icons/linkedin.svg";
 import mapbase from "./assets/figma-icons/mapbase.png";
 import pixelatedUnion from "./assets/figma-icons/pixelated-union.svg";
 import projectNovaLogo from "./assets/figma-icons/project-nova-logo.png";
@@ -75,6 +78,17 @@ import searchIcon from "./assets/figma-icons/search.svg";
 import searchVisualIcon from "./assets/figma-icons/search-visual.svg";
 import cursorMagicIcon from "./assets/figma-icons/cursor-magic-selection-02.svg";
 import skillVectorUserIcon from "./assets/figma-icons/skill-vector-user.svg";
+import createComponentIcon from "./assets/figma-icons/create-component.svg";
+import multiEditVariantsIcon from "./assets/figma-icons/multi-edit-variants.svg";
+import selectMatchingIcon from "./assets/figma-icons/select-matching.svg";
+import createVariantIcon from "./assets/figma-icons/create-variant.svg";
+import skillMoreActionsIcon from "./assets/figma-icons/skill-more-actions.svg";
+import contactBehanceIcon from "./assets/figma-icons/contact-behance.svg";
+import contactDribbbleIcon from "./assets/figma-icons/contact-dribbble.svg";
+import contactInstagramIcon from "./assets/figma-icons/contact-instagram.svg";
+import contactLinkActionIcon from "./assets/figma-icons/contact-link.svg";
+import contactLinkedinIcon from "./assets/figma-icons/contact-linkedin.svg";
+import contactMailIcon from "./assets/figma-icons/contact-mail.svg";
 
 const pages = ["Index", "Work", "About me", "What I do", "Beyond Work"];
 const rulers = [-1250, -1125, -1000, -875, -750, -625, -500, -375, -250, -125, 0, 125, 250, 375, 500, 625, 750, 875, 1000];
@@ -131,34 +145,34 @@ const contactLinks = [
   {
     id: "email",
     label: "zhraa.ahmadpour@gmail.com",
-    asset: detailEmailIcon,
+    asset: contactMailIcon,
     href: "mailto:zhraa.ahmadpour@gmail.com",
   },
   {
     id: "linkedin",
     label: "LinkedIn",
-    asset: linkedinIcon,
+    asset: contactLinkedinIcon,
     href: "https://www.linkedin.com/in/zahra-ahmadpour?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
     external: true,
   },
   {
     id: "instagram",
     label: "Instagram",
-    simpleIcon: siInstagram,
+    asset: contactInstagramIcon,
     href: "https://www.instagram.com/zhra.ahp?igsh=MXF1cXc2MGNldmdyZg%3D%3D&utm_source=qr",
     external: true,
   },
   {
     id: "behance",
     label: "Behance",
-    simpleIcon: siBehance,
+    asset: contactBehanceIcon,
     href: "https://www.behance.net/zahra_ahmadpour",
     external: true,
   },
   {
     id: "dribbble",
     label: "Dribbble",
-    simpleIcon: siDribbble,
+    asset: contactDribbbleIcon,
     href: "https://dribbble.com/zhra_ah",
     external: true,
   },
@@ -363,58 +377,72 @@ const whatIDoServices = [
 const techToolPairs = [
   {
     position: { x: 10, y: 24 },
+    size: "large",
     tools: [
-      { id: "figma", title: "Figma", simpleIcon: siFigma, color: "#f24e1e" },
-      { id: "photoshop", title: "Photoshop", asset: photoshopIcon },
-    ],
-  },
-  {
-    position: { x: 36, y: 24 },
-    tools: [
-      { id: "illustrator", title: "Illustrator", asset: illustratorIcon },
-      { id: "miro", title: "Miro", simpleIcon: siMiro, color: "#ffd02f" },
-    ],
-  },
-  {
-    position: { x: 64, y: 24 },
-    tools: [
-      { id: "google-analytics", title: "Google Analytics", simpleIcon: siGoogleanalytics, color: "#f9ab00" },
+      { id: "figma", title: "Figma", asset: figmaIcon },
+      { id: "html", title: "HTML", asset: htmlIcon },
       { id: "chatgpt", title: "ChatGPT", asset: openaiIcon, invert: true },
     ],
   },
   {
-    position: { x: 90, y: 24 },
+    position: { x: 36, y: 24 },
+    size: "large",
     tools: [
-      { id: "cloud", title: "Cloud", customIcon: "cloud" },
-      { id: "higgsfield", title: "Higgsfield", asset: higgsfieldIcon },
-    ],
-  },
-  {
-    position: { x: 10, y: 76 },
-    tools: [
-      { id: "lovable", title: "Lovable", asset: lovableIcon },
+      { id: "photoshop", title: "Photoshop", asset: photoshopProvidedIcon },
+      { id: "css", title: "CSS", asset: cssIcon },
       { id: "codex", title: "Codex", asset: openaiIcon, invert: true, badge: "C" },
     ],
   },
   {
-    position: { x: 36, y: 76 },
+    position: { x: 64, y: 24 },
+    size: "large",
     tools: [
-      { id: "figma-make", title: "Figma Make", simpleIcon: siFigma, color: "#a259ff", badge: "+" },
+      { id: "illustrator", title: "Illustrator", asset: illustratorProvidedIcon },
+      { id: "javascript", title: "JavaScript", asset: javascriptIcon },
+      { id: "higgsfield", title: "Higgsfield", asset: higgsfieldIcon },
+    ],
+  },
+  {
+    position: { x: 90, y: 24 },
+    size: "large",
+    tools: [
+      { id: "miro", title: "Miro", asset: miroIcon },
+      { id: "wix", title: "Wix", asset: wixIcon, invert: true, iconClass: "wide-tech-icon" },
+      { id: "lovable", title: "Lovable", asset: lovableIcon },
+    ],
+  },
+  {
+    position: { x: 10, y: 76 },
+    size: "large",
+    tools: [
+      { id: "notion", title: "Notion", asset: notionIcon },
+      { id: "github", title: "GitHub", asset: githubIcon, invert: true },
+      { id: "figma-make", title: "Figma Make", asset: figmaIcon, badge: "+" },
+    ],
+  },
+  {
+    position: { x: 36, y: 76 },
+    size: "large",
+    tools: [
+      { id: "maze", title: "Maze", asset: mazeIcon },
+      { id: "clickup", title: "ClickUp", asset: clickupIcon },
       { id: "v0", title: "v0", asset: v0Icon, invert: true },
     ],
   },
   {
     position: { x: 64, y: 76 },
+    size: "large",
     tools: [
-      { id: "framer", title: "Framer", simpleIcon: siFramer, color: "#ffffff" },
-      { id: "notion", title: "Notion", simpleIcon: siNotion, color: "#ffffff" },
+      { id: "framer", title: "Framer", asset: framerProvidedIcon, invert: true },
+      { id: "jira", title: "Jira", asset: jiraIcon },
+      { id: "claude", title: "Claude AI", simpleIcon: siClaude, color: "#D97757" },
     ],
   },
   {
     position: { x: 90, y: 76 },
+    size: "large",
     tools: [
-      { id: "jira", title: "Jira", simpleIcon: siJira, color: "#2684ff" },
-      { id: "maze", title: "Maze", simpleIcon: siMaze, color: "#ffffff" },
+      { id: "vscode", title: "VS Code", asset: vscodeIcon },
     ],
   },
 ];
@@ -466,11 +494,130 @@ const projectLayerSections = {
   ],
 };
 
-function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject }) {
+function getSelectionLayerTree({ selectedProfile, selectedProject, selectedSkill }) {
+  if (selectedProfile) {
+    return {
+      id: "profile-card",
+      label: "Profile Card",
+      kind: "Component",
+      icon: createComponentIcon,
+      children: [
+        { id: "profile-image-frame", label: "Profile Image Frame", type: "frame" },
+        { id: "profile-image", label: "Zhra Portrait", type: "image" },
+        { id: "availability-pill", label: "Available to Work", type: "group" },
+        { id: "availability-dot", label: "Status Dot", type: "ellipse" },
+        { id: "availability-label", label: "Availability Label", type: "text" },
+        { id: "profile-background", label: "Card Background", type: "rectangle" },
+      ],
+    };
+  }
+
+  if (selectedProject) {
+    return {
+      id: `project-${selectedProject.id}`,
+      label: `${selectedProject.title} Card`,
+      kind: selectedProject.workType === "case-studies" ? "Case Study" : "Project",
+      icon: frameIcon,
+      children: [
+        { id: "project-cover", label: "Cover Image", type: "image" },
+        { id: "project-content", label: "Card Content", type: "frame" },
+        { id: "project-icon", label: "Project Icon", type: "component" },
+        { id: "project-title", label: selectedProject.title, type: "text" },
+        { id: "project-meta", label: selectedProject.edited, type: "text" },
+      ],
+    };
+  }
+
+  if (selectedSkill) {
+    return {
+      id: `skill-${selectedSkill.id}`,
+      label: selectedSkill.heading,
+      kind: "Component",
+      icon: createComponentIcon,
+      children: [
+        { id: "skill-action", label: selectedSkill.action, type: "frame" },
+        { id: "skill-icon", label: "Action Icon", type: "component" },
+        { id: "skill-label", label: "Button Label", type: "text" },
+        { id: "skill-border", label: "Dashed Border", type: "rectangle" },
+      ],
+    };
+  }
+
+  return null;
+}
+
+const layerTypeGlyphs = {
+  component: "◇",
+  ellipse: "○",
+  frame: "#",
+  group: "⌗",
+  image: "▧",
+  rectangle: "□",
+  text: "T",
+};
+
+function SelectionLayerTree({ tree }) {
+  const [expanded, setExpanded] = React.useState(true);
+  const [activeLayer, setActiveLayer] = React.useState(tree.id);
+
+  return (
+    <div className="selection-layer-tree" role="tree" aria-label={`${tree.label} layers`}>
+      <button
+        type="button"
+        className={`selection-layer-root ${activeLayer === tree.id ? "is-active" : ""}`}
+        role="treeitem"
+        aria-expanded={expanded}
+        aria-selected={activeLayer === tree.id}
+        onClick={() => {
+          setActiveLayer(tree.id);
+          setExpanded((current) => !current);
+        }}
+      >
+        <span className={`layer-chevron ${expanded ? "is-expanded" : ""}`} aria-hidden="true">›</span>
+        <Icon src={tree.icon} />
+        <span className="selection-layer-name">
+          <strong>{tree.label}</strong>
+          <small>{tree.kind}</small>
+        </span>
+      </button>
+
+      {expanded ? (
+        <div className="selection-layer-children" role="group">
+          {tree.children.map((layer) => (
+            <button
+              type="button"
+              className={activeLayer === layer.id ? "is-active" : ""}
+              role="treeitem"
+              aria-selected={activeLayer === layer.id}
+              onClick={() => setActiveLayer(layer.id)}
+              key={layer.id}
+            >
+              <span className={`selection-layer-glyph is-${layer.type}`} aria-hidden="true">
+                {layerTypeGlyphs[layer.type] ?? "◇"}
+              </span>
+              <span>{layer.label}</span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function LeftSidebar({
+  activePage,
+  openedProject,
+  selectedProfile,
+  selectedProject,
+  selectedSkill,
+  onPageChange,
+  onOpenProject,
+}) {
   const [mobilePagesOpen, setMobilePagesOpen] = React.useState(false);
   const pagesPanelRef = React.useRef(null);
   const [activeProjectAnchor, setActiveProjectAnchor] = React.useState("cover");
   const layerSections = openedProject ? projectLayerSections[openedProject.id] ?? [] : [];
+  const selectionLayerTree = getSelectionLayerTree({ selectedProfile, selectedProject, selectedSkill });
 
   React.useEffect(() => {
     setMobilePagesOpen(false);
@@ -583,7 +730,7 @@ function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject })
         </nav>
       </section>
 
-      <section className={`layers-panel ${openedProject ? "has-project-layers" : ""}`}>
+      <section className={`layers-panel ${openedProject || selectionLayerTree ? "has-project-layers" : ""}`}>
         <div className="panel-heading">
           <h2>Layers</h2>
           <Icon src={sidebarLayersIcon} />
@@ -635,7 +782,11 @@ function LeftSidebar({ activePage, openedProject, onPageChange, onOpenProject })
               ))}
             </div>
           </nav>
-        ) : null}
+        ) : selectionLayerTree ? (
+          <SelectionLayerTree key={selectionLayerTree.id} tree={selectionLayerTree} />
+        ) : (
+          <p className="layers-empty-state">Select an element to inspect its layers.</p>
+        )}
       </section>
     </aside>
   );
@@ -698,10 +849,10 @@ function SkillInspectorDetails({ skill }) {
       <div className="skill-inspector-title">
         <h2>{skill.title}</h2>
         <div>
-          <Icon src={actionsIcon} />
-          <Icon src={frameIcon} />
-          <Icon src={skillVectorUserIcon} />
-          <Icon src={moreActionsIcon} />
+          <Icon src={multiEditVariantsIcon} />
+          <Icon src={selectMatchingIcon} />
+          <Icon src={createVariantIcon} />
+          <Icon src={skillMoreActionsIcon} />
         </div>
       </div>
 
@@ -900,24 +1051,26 @@ function BottomDock({ activePage, openedProject, onNavigate, onOpenProject }) {
       >
         <Icon src={dockHomeIcon} className="dock-home-icon" />
       </button>
-      <button
-        type="button"
-        className={`dock-item ${activePage === "Case Study" || openedProject ? "active" : ""}`}
-        title="Projects"
-        onClick={() => navigateTo("Case Study")}
-      >
-        <Icon src={dockFileIcon} className="dock-file-icon" />
-      </button>
-      <button
-        type="button"
-        className={`dock-chevron project-menu-toggle ${projectMenuOpen ? "is-open" : ""}`}
-        aria-label="Show project pages"
-        aria-expanded={projectMenuOpen}
-        aria-controls="project-dock-menu"
-        onClick={() => setProjectMenuOpen((current) => !current)}
-      >
-        <Icon src={dockChevronIcon} className="dock-chevron-icon" />
-      </button>
+      <span className="dock-project-group">
+        <button
+          type="button"
+          className={`dock-item ${activePage === "Case Study" || openedProject ? "active" : ""}`}
+          title="Projects"
+          onClick={() => navigateTo("Case Study")}
+        >
+          <Icon src={dockFileIcon} className="dock-file-icon" />
+        </button>
+        <button
+          type="button"
+          className={`dock-chevron project-menu-toggle ${projectMenuOpen ? "is-open" : ""}`}
+          aria-label="Show project pages"
+          aria-expanded={projectMenuOpen}
+          aria-controls="project-dock-menu"
+          onClick={() => setProjectMenuOpen((current) => !current)}
+        >
+          <Icon src={dockProjectChevronIcon} className="dock-chevron-icon" />
+        </button>
+      </span>
       <button
         type="button"
         className={`dock-item ${activePage === "Contact" ? "active" : ""}`}
@@ -1154,7 +1307,7 @@ function WorkCanvas({ selectedProject, onSelectProject, onOpenProject }) {
               aria-controls="featured-work-filter-menu"
             >
               <span>{activeFilter.label}</span>
-              <Icon src={dropdownIcon} className="work-filter-chevron" />
+              <Icon src={workFilterArrowIcon} className="work-filter-chevron" />
             </button>
 
             {isFilterOpen ? (
@@ -1327,7 +1480,7 @@ function ContactModal({ onClose }) {
           <h2>Contact Me</h2>
           <div>
             <button type="button" className="copy-link-button" onClick={handleCopyLink}>
-              <span className="chain-icon" aria-hidden="true" />
+              <Icon src={contactLinkActionIcon} className="copy-link-icon" />
               {copied ? "Copied" : "Copy link"}
             </button>
             <button type="button" className="contact-close" onClick={onClose} aria-label="Close contact links">
@@ -1390,7 +1543,12 @@ function TechToolIcon({ tool }) {
   if (tool.asset) {
     return (
       <span className="simple-tech-icon">
-        <img className={tool.invert ? "invert-icon" : ""} src={tool.asset} alt="" aria-hidden="true" />
+        <img
+          className={[tool.invert ? "invert-icon" : "", tool.iconClass ?? ""].filter(Boolean).join(" ")}
+          src={tool.asset}
+          alt=""
+          aria-hidden="true"
+        />
         {tool.badge ? <span className="make-spark">{tool.badge}</span> : null}
       </span>
     );
@@ -1423,7 +1581,7 @@ function TechStackNetwork() {
 
   React.useEffect(() => {
     const timer = window.setInterval(() => {
-      setPhase((current) => (current + 1) % 2);
+      setPhase((current) => (current + 1) % 3);
     }, 5000);
     return () => window.clearInterval(timer);
   }, []);
@@ -1438,10 +1596,10 @@ function TechStackNetwork() {
       </svg>
 
       {techToolPairs.map((pair, index) => {
-        const tool = pair.tools[phase];
+        const tool = pair.tools[phase % pair.tools.length];
         return (
           <div
-            className="network-node"
+            className={`network-node size-${pair.size} ${pair.position.y > 70 ? "label-above" : ""}`}
             data-tool={tool.title}
             key={`tech-node-${index}`}
             style={{ "--node-x": `${pair.position.x}%`, "--node-y": `${pair.position.y}%` }}
@@ -1454,16 +1612,21 @@ function TechStackNetwork() {
         );
       })}
 
-      {[10, 36, 64, 90].map((x, index) => (
+      {[
+        { x: 10, y: 50, color: "#8fd5ff" },
+        { x: 36, y: 50, color: "#ff83b7" },
+        { x: 64, y: 50, color: "#ffd46f" },
+        { x: 90, y: 50, color: "#a98cff" },
+      ].map((dot, index) => (
         <span
           className={`flow-dot dot-${index + 1}`}
-          key={x}
-          style={{ "--dot-x": `${x}%`, "--dot-color": ["#8fd5ff", "#ff83b7", "#ffd46f", "#a98cff"][index] }}
+          key={`${dot.x}-${dot.y}`}
+          style={{ "--dot-x": `${dot.x}%`, "--dot-y": `${dot.y}%`, "--dot-color": dot.color }}
         />
       ))}
       <span className="sr-only">
-        Figma, Photoshop, Illustrator, Miro, Google Analytics, ChatGPT, Cloud, Higgsfield, Lovable, Codex, Figma Make,
-        v0, Framer, Notion, Jira, and Maze.
+        Figma, Photoshop, Illustrator, Miro, Wix, HTML, CSS, JavaScript, Notion, Maze, GitHub, ClickUp, Framer, Jira,
+        VS Code, ChatGPT, Claude AI, Higgsfield, Lovable, Codex, Figma Make, and v0.
       </span>
     </div>
   );
@@ -1479,7 +1642,7 @@ function WhatIDoCanvas({ selectedSkill, onSelectSkill }) {
           {whatIDoServices.map((service) => (
             <section className="skill-column" key={service.id}>
               <h2>
-                <Icon src={skillVectorUserIcon} />
+                <Icon src={createComponentIcon} />
                 {service.heading}
               </h2>
               <WhatCard
@@ -1558,7 +1721,7 @@ function BeyondCanvas() {
         </div>
         <span className="spotify-player-tab" aria-hidden="true"><i /></span>
         <div className="spotify-corner-mark">
-          <SpotifyMark />
+          <img className="spotify-brand-logo" src={spotifyLogo} alt="" aria-hidden="true" />
           <span>Spotify</span>
         </div>
         <div className="spotify-player-copy">
@@ -1576,7 +1739,7 @@ function BeyondCanvas() {
         style={{ "--reveal-delay": "230ms" }}
       >
         <div className="movie-card-topline">
-          <span className="imdb-mark">IMDb</span>
+          <img className="imdb-brand-logo" src={imdbLogo} alt="IMDb" />
           <a
             className="imdb-list-link"
             href="https://www.imdb.com/list/ls4176514652/?ref_=ext_shr_lnk"
@@ -1748,11 +1911,20 @@ function ContactSchedulePage() {
   const lastAllowedMonth = new Date(maximumDate.getFullYear(), maximumDate.getMonth(), 1);
   const canGoPrevious = viewMonth > firstAllowedMonth;
   const canGoNext = viewMonth < lastAllowedMonth;
-  const meetingSubject = encodeURIComponent(`Meeting request — ${selectedDateLabel}`);
-  const meetingBody = encodeURIComponent(
-    `Hi Zhra,\n\nI'd like to request a 30-minute meeting on ${selectedDateLabel}.\n\nI'm flexible about the time and happy to coordinate it with you by email.\n\nThank you!`,
-  );
-  const meetingHref = `mailto:zhraa.ahmadpour@gmail.com?subject=${meetingSubject}&body=${meetingBody}`;
+  const meetingRecipient = "zhraa.ahmadpour@gmail.com";
+  const selectedDateKey = toDateKey(selectedDate);
+  const meetingSubjectText = `Meeting request - ${selectedDateLabel}`;
+  const meetingBodyText = [
+    "Hi Zhra,",
+    "",
+    "I'd like to request a 30-minute meeting on:",
+    `${selectedDateLabel} (${selectedDateKey})`,
+    "",
+    "I'm flexible about the time and happy to coordinate it with you by email.",
+    "",
+    "Thank you!",
+  ].join("\n");
+  const gmailComposeHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(meetingRecipient)}&su=${encodeURIComponent(meetingSubjectText)}&body=${encodeURIComponent(meetingBodyText)}`;
 
   function changeMonth(amount) {
     setViewMonth((current) => new Date(current.getFullYear(), current.getMonth() + amount, 1));
@@ -1844,10 +2016,16 @@ function ContactSchedulePage() {
             <em>Time coordinated by email</em>
           </div>
 
-          <a className="meeting-submit refined-meeting-submit" href={meetingHref}>
+          <a
+            className="meeting-submit refined-meeting-submit"
+            href={gmailComposeHref}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Request a meeting on ${selectedDateLabel} by email`}
+          >
             Request this day <span>↗</span>
           </a>
-          <p className="booking-footnote">Opens your email with the selected date ready to send.</p>
+          <p className="booking-footnote">Opens Gmail with your selected date ready to send.</p>
         </aside>
       </div>
 
@@ -1931,8 +2109,12 @@ function Workspace({
     const scrollTop = event.currentTarget.scrollTop;
     setRulerScrollTop(scrollTop);
     const offsets = getSectionOffsets(layoutScale);
-    const revealStart = offsets["About me"] - 260;
-    const revealStep = 56;
+    const isMobileLayout = window.matchMedia("(max-width: 620px)").matches;
+    const revealStep = isMobileLayout ? 39 : 56;
+    const firstMobileTraitTrigger = offsets["About me"] + 616 - event.currentTarget.clientHeight * 0.78;
+    const revealStart = isMobileLayout
+      ? firstMobileTraitTrigger - revealStep * 2
+      : offsets["About me"] - 260;
     const nextRevealCount = Math.max(
       0,
       Math.min(aboutLineCount, Math.floor((scrollTop - revealStart) / revealStep) + 1),
@@ -2101,7 +2283,7 @@ export default function App() {
   }
 
   function handleAppClick(event) {
-    if (event.target.closest?.(".profile-card, .project-card, .what-card, .page-list, .bottom-dock, .contact-button, .contact-modal")) return;
+    if (event.target.closest?.(".profile-card, .project-card, .what-card, .page-list, .selection-layer-tree, .bottom-dock, .contact-button, .contact-modal")) return;
     handleClearSelection();
   }
 
@@ -2110,6 +2292,9 @@ export default function App() {
       <LeftSidebar
         activePage={activePage}
         openedProject={openedProject}
+        selectedProfile={selectedProfile}
+        selectedProject={selectedProject}
+        selectedSkill={selectedSkill}
         onPageChange={handlePageChange}
         onOpenProject={handleOpenProject}
       />

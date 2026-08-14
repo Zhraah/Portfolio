@@ -6658,15 +6658,15 @@ img.availability-dot {
   }
 
   .what-stage {
-    top: 2552px;
+    top: 2532px;
   }
 
   .beyond-stage {
-    top: 3392px;
+    top: 3372px;
   }
 
   .canvas-scroll-space:not(.has-menu-page):not(.has-project-page) {
-    min-height: 4236px;
+    min-height: 4216px;
   }
 
   .work-stage.is-expanded-grid {
@@ -6678,15 +6678,15 @@ img.availability-dot {
   }
 
   .work-stage.is-expanded-grid ~ .what-stage {
-    top: 2876px;
+    top: 2856px;
   }
 
   .work-stage.is-expanded-grid ~ .beyond-stage {
-    top: 3716px;
+    top: 3696px;
   }
 
   .canvas-scroll-space:has(.work-stage.is-expanded-grid):not(.has-menu-page):not(.has-project-page) {
-    min-height: 4560px;
+    min-height: 4540px;
   }
 
   .work-stage:has(.project-grid.is-list-view) {
@@ -6698,15 +6698,15 @@ img.availability-dot {
   }
 
   .work-stage:has(.project-grid.is-list-view) ~ .what-stage {
-    top: 2244px;
+    top: 2224px;
   }
 
   .work-stage:has(.project-grid.is-list-view) ~ .beyond-stage {
-    top: 3084px;
+    top: 3064px;
   }
 
   .canvas-scroll-space:has(.work-stage .project-grid.is-list-view):not(.has-menu-page):not(.has-project-page) {
-    min-height: 3928px;
+    min-height: 3908px;
   }
 
   .work-stage:has(.project-grid.is-list-view > .project-list-row:nth-child(n + 5)) {
@@ -6718,15 +6718,15 @@ img.availability-dot {
   }
 
   .work-stage:has(.project-grid.is-list-view > .project-list-row:nth-child(n + 5)) ~ .what-stage {
-    top: 2478px;
+    top: 2458px;
   }
 
   .work-stage:has(.project-grid.is-list-view > .project-list-row:nth-child(n + 5)) ~ .beyond-stage {
-    top: 3318px;
+    top: 3298px;
   }
 
   .canvas-scroll-space:has(.work-stage .project-grid.is-list-view > .project-list-row:nth-child(n + 5)):not(.has-menu-page):not(.has-project-page) {
-    min-height: 4162px;
+    min-height: 4142px;
   }
 }
 

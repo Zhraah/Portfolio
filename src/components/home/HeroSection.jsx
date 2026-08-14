@@ -1,3 +1,5 @@
+import React from "react";
+
 import Icon from "../ui/Icon.jsx";
 import SelectionHandles from "./SelectionHandles.jsx";
 

@@ -4283,9 +4283,15 @@ img.availability-dot {
     margin-bottom: 26px;
   }
   .work-controls {
-    align-items: flex-end;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .work-controls .work-filter-shell,
+  .work-controls .view-switch {
+    flex: 0 0 auto;
   }
   .work-controls .view-switch {
     display: inline-flex;
@@ -6343,7 +6349,8 @@ img.availability-dot {
   .work-stage {
     top: 924px;
     min-height: 980px;
-    padding-bottom: 40px;
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
 
   .work-header {
@@ -6403,6 +6410,10 @@ img.availability-dot {
     height: 914px;
   }
 
+  .about-copy {
+    padding-top: 32px;
+  }
+
   .about-sticky {
     height: 914px;
   }
@@ -6420,7 +6431,8 @@ img.availability-dot {
     z-index: 0;
     width: 1px;
     content: "";
-    background: rgba(255, 255, 255, 0.11);
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.17);
   }
 
   .about-traits::before {
@@ -6483,8 +6495,8 @@ img.availability-dot {
     transform-origin: left center;
   }
 
-  .about-trait.show-left-line .about-trait-row-lines::before,
-  .about-trait.show-right-line .about-trait-row-lines::after {
+  .about-trait.show-row-line .about-trait-row-lines::before,
+  .about-trait.show-row-line .about-trait-row-lines::after {
     opacity: 1;
     transform: scaleX(1);
   }
@@ -6513,11 +6525,15 @@ img.availability-dot {
   .what-stage {
     top: 2842px;
     height: 1184px;
+    padding-top: 0;
+    padding-bottom: 48px;
   }
 
   .beyond-stage {
     top: 4050px;
     height: calc(758px + 114vw);
+    padding-top: 32px;
+    padding-bottom: 48px;
   }
 
   .canvas-scroll-space {

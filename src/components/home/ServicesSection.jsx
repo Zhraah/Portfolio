@@ -1,7 +1,10 @@
 import React from "react";
 
 import Icon from "../ui/Icon.jsx";
+import SelectionHandles from "./SelectionHandles.jsx";
 import { techToolPairs, whatIDoServices } from "../../data/services.js";
+
+import createComponentIcon from "../../assets/figma-icons/create-component.svg";
 
 function WhatCard({ service, selected, onSelect }) {
   return (

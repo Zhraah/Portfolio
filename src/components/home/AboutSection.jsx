@@ -1,4 +1,5 @@
 import { aboutTraits } from "../../data/about.js";
+import Icon from "../ui/Icon.jsx";
 
 function AboutCanvas({ revealCount }) {
   return (
@@ -39,7 +40,7 @@ function AboutCanvas({ revealCount }) {
             const rightLineStep = leftLineStep + 1;
             return (
               <div
-                className={`about-trait ${revealCount >= leftLineStep ? "show-left-line" : ""} ${
+                className={`about-trait ${revealCount >= leftLineStep ? "show-left-line show-row-line" : ""} ${
                   revealCount >= rightLineStep ? "show-right-line is-visible" : ""
                 }`}
                 key={trait.title}

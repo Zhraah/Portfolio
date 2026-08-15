@@ -5,7 +5,7 @@ import { behanceCaseStudies, projects } from "../data/portfolio.js";
 function PortfolioGalleryCard({ item, kind, onOpen }) {
   const content = (
     <>
-      <div className="portfolio-card-cover">
+      <div className="portfolio-card-cover" data-project-thumbnail>
         <img src={item.preview} alt={`${item.title} cover`} />
         <span>{kind === "project" ? "View project" : "View on Behance"} ↗</span>
       </div>
@@ -32,7 +32,15 @@ function PortfolioGalleryCard({ item, kind, onOpen }) {
   }
 
   return (
-    <button type="button" className="portfolio-gallery-card" onClick={() => onOpen(item)}>
+    <button
+      type="button"
+      className="portfolio-gallery-card"
+      data-project-card={item.id}
+      onClick={(event) => onOpen(item, {
+        cardElement: event.currentTarget,
+        sourceElement: event.currentTarget.querySelector("[data-project-thumbnail]"),
+      })}
+    >
       {content}
     </button>
   );

@@ -6,6 +6,7 @@ import LeftSidebar from "./components/layout/LeftSidebar.jsx";
 import Workspace from "./components/layout/Workspace.jsx";
 import ContactModal from "./components/overlays/ContactModal.jsx";
 import { getSectionOffsets, menuPages } from "./config/navigation.js";
+import useProjectTransition from "./hooks/useProjectTransition.js";
 
 export default function App() {
   const [activePage, setActivePage] = React.useState("Index");
@@ -14,11 +15,33 @@ export default function App() {
   const [selectedSkill, setSelectedSkill] = React.useState(null);
   const [openedProject, setOpenedProject] = React.useState(null);
   const [contactOpen, setContactOpen] = React.useState(false);
+  const [canvasNavigation, setCanvasNavigation] = React.useState({ active: false, direction: "down", token: 0 });
+  const canvasNavigationTimerRef = React.useRef(null);
+  const projectTransition = useProjectTransition({
+    onOpen: commitOpenProject,
+    onClose: commitCloseProject,
+  });
 
-  function scrollWorkspaceTo(offset) {
+  React.useEffect(() => () => {
+    window.clearTimeout(canvasNavigationTimerRef.current);
+  }, []);
+
+  function scrollWorkspaceTo(offset, options = {}) {
     const applyScroll = () => {
       const workspace = document.querySelector(".workspace");
       if (!workspace) return;
+
+      if (options.immediate) {
+        const previousScrollBehavior = workspace.style.scrollBehavior;
+        workspace.style.scrollBehavior = "auto";
+        workspace.scrollTo({ top: offset, left: 0, behavior: "auto" });
+        workspace.scrollTop = offset;
+        window.requestAnimationFrame(() => {
+          workspace.style.scrollBehavior = previousScrollBehavior;
+        });
+        return;
+      }
+
       workspace.scrollTop = offset;
       workspace.scrollTo(0, offset);
       workspace.scrollTo({ top: offset, left: 0 });
@@ -26,8 +49,10 @@ export default function App() {
     };
 
     applyScroll();
-    window.setTimeout(applyScroll, 0);
-    window.setTimeout(applyScroll, 160);
+    if (!options.immediate) {
+      window.setTimeout(applyScroll, 0);
+      window.setTimeout(applyScroll, 160);
+    }
   }
 
   function scrollToPage(page) {
@@ -39,7 +64,33 @@ export default function App() {
     }
   }
 
+  function startCanvasNavigation(page) {
+    if (openedProject || projectTransition.isActive()) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const destination = getSectionOffsets()[page];
+    const workspace = document.querySelector(".workspace");
+    if (destination === undefined || !workspace) return;
+    if (Math.abs(destination - workspace.scrollTop) < 2) return;
+
+    window.clearTimeout(canvasNavigationTimerRef.current);
+    setCanvasNavigation({
+      active: true,
+      direction: destination > workspace.scrollTop ? "down" : "up",
+      token: performance.now(),
+    });
+    canvasNavigationTimerRef.current = window.setTimeout(() => {
+      setCanvasNavigation((current) => ({ ...current, active: false }));
+    }, 520);
+  }
+
   function handlePageChange(page, options = {}) {
+    if (!options.fromScroll && projectTransition.isActive()) return;
+
+    if (!options.fromScroll) {
+      startCanvasNavigation(page);
+    }
+
     if (!options.fromScroll) {
       setOpenedProject(null);
     }
@@ -94,19 +145,29 @@ export default function App() {
     setSelectedProject(null);
   }
 
-  function handleOpenProject(project) {
+  function commitOpenProject(project) {
     setSelectedProject(project);
     setSelectedProfile(false);
     setSelectedSkill(null);
     setOpenedProject(project);
     setActivePage(activePage === "Case Study" ? "Case Study" : "Work");
-    scrollWorkspaceTo(0);
+    scrollWorkspaceTo(0, { immediate: true });
+  }
+
+  function commitCloseProject() {
+    setOpenedProject(null);
+    setActivePage("Work");
+    window.requestAnimationFrame(() => {
+      scrollWorkspaceTo(getSectionOffsets().Work, { immediate: true });
+    });
+  }
+
+  function handleOpenProject(project, transitionContext) {
+    projectTransition.openProject(project, transitionContext);
   }
 
   function handleCloseProject() {
-    setOpenedProject(null);
-    setActivePage("Work");
-    window.setTimeout(() => scrollToPage("Work"), 0);
+    projectTransition.closeProject(openedProject);
   }
 
   function handleAppClick(event) {
@@ -115,7 +176,7 @@ export default function App() {
   }
 
   return (
-    <div className="app" onClick={handleAppClick}>
+    <div className={`app ${projectTransition.className}`} onClick={handleAppClick}>
       <LeftSidebar
         activePage={activePage}
         openedProject={openedProject}
@@ -137,6 +198,7 @@ export default function App() {
         onOpenProject={handleOpenProject}
         onCloseProject={handleCloseProject}
         onPageChange={handlePageChange}
+        canvasNavigation={canvasNavigation}
       />
       <RightSidebar
         selectedProfile={selectedProfile}

@@ -24,7 +24,12 @@ const moreWorks = [
 export default function FcMotivateCaseStudy({ onBack }) {
   return (
     <article className="project-case-study case-fc case-fc-reference">
-      <header className="fc-reference-hero" id="case-cover" data-case-anchor="cover">
+      <header
+        className="fc-reference-hero"
+        id="case-cover"
+        data-case-anchor="cover"
+        data-project-hero="fc-motivate"
+      >
         <img src={fcHero} alt="FC Motivate football training application" />
       </header>
 

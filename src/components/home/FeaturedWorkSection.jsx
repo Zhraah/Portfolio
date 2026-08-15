@@ -4,20 +4,24 @@ import Icon from "../ui/Icon.jsx";
 import SelectionHandles from "./SelectionHandles.jsx";
 import { behanceCaseStudies, projects } from "../../data/portfolio.js";
 
-import avatar from "../../assets/profile/zhra-avatar.png";
 import workFilterArrowIcon from "../../assets/work-icons/filter-arrow.svg";
 import workGridViewIcon from "../../assets/work-icons/grid-view.png";
 import workListViewIcon from "../../assets/work-icons/list-view.svg";
 import workProjectIcon from "../../assets/work-icons/project-favicon.svg";
 
-function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", showActiveUser = false }) {
-  function handleOpen() {
+function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
+  function handleOpen(event) {
+    if (event.detail > 1) return;
+
     if (project.external && project.href) {
       window.open(project.href, "_blank", "noopener,noreferrer");
       return;
     }
 
-    onOpen(project);
+    onOpen(project, {
+      cardElement: event.currentTarget,
+      sourceElement: event.currentTarget.querySelector("[data-project-thumbnail]"),
+    });
   }
 
   if (viewMode === "list") {
@@ -36,13 +40,16 @@ function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", s
       <button
         type="button"
         className={`project-card project-list-row ${selected ? "is-selected" : ""}`}
-        onClick={() => onSelect(project)}
-        onDoubleClick={handleOpen}
+        onClick={handleOpen}
         data-project-id={project.id}
-        aria-pressed={selected}
+        data-project-card={project.id}
+        aria-label={`${project.external ? "Open" : "View"} ${project.title}${project.external ? " case study in a new tab" : " project"}`}
       >
         <span className="project-list-name-cell">
-          <span className={`project-list-thumbnail ${project.preview ? "has-image" : ""}`}>
+          <span
+            className={`project-list-thumbnail ${project.preview ? "has-image" : ""}`}
+            data-project-thumbnail
+          >
             {project.preview ? <img src={project.preview} alt="" /> : null}
             <span className="project-list-file-icon" aria-hidden="true">
               <Icon src={workProjectIcon} />
@@ -52,8 +59,8 @@ function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", s
         </span>
         <span className="project-list-date">{lastModifiedLabel}</span>
         <span className="project-list-date">{createdLabel}</span>
-        <span className="project-list-active">
-          {showActiveUser ? <img src={avatar} alt="Zhra is active in this file" /> : null}
+        <span className="project-list-action" aria-hidden="true">
+          View <span>{project.external ? "↗" : "→"}</span>
         </span>
       </button>
     );
@@ -63,12 +70,12 @@ function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", s
     <button
       type="button"
       className={`project-card ${selected ? "is-selected" : ""}`}
-      onClick={() => onSelect(project)}
-      onDoubleClick={handleOpen}
+      onClick={handleOpen}
       data-project-id={project.id}
-      aria-pressed={selected}
+      data-project-card={project.id}
+      aria-label={`${project.external ? "Open" : "View"} ${project.title}${project.external ? " case study in a new tab" : " project"}`}
     >
-      <div className={`project-preview ${project.preview ? "has-image" : ""}`}>
+      <div className={`project-preview ${project.preview ? "has-image" : ""}`} data-project-thumbnail>
         {project.preview ? <img src={project.preview} alt={`${project.title} preview`} /> : null}
       </div>
       <div className="project-card-footer">
@@ -79,15 +86,15 @@ function ProjectCard({ project, selected, onSelect, onOpen, viewMode = "grid", s
           <strong>{project.title}</strong>
           <em>{project.edited}</em>
         </span>
-        <span className="project-card-kind">
-          {project.workType === "case-studies" ? "Case Study" : "Project"}
+        <span className="project-card-kind" aria-hidden="true">
+          View <span>{project.external ? "↗" : "→"}</span>
         </span>
       </div>
     </button>
   );
 }
 
-function WorkCanvas({ selectedProject, onSelectProject, onOpenProject }) {
+function WorkCanvas({ selectedProject, onOpenProject }) {
   const [filter, setFilter] = React.useState("projects");
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [viewMode, setViewMode] = React.useState("grid");
@@ -204,18 +211,16 @@ function WorkCanvas({ selectedProject, onSelectProject, onOpenProject }) {
             <span>Name</span>
             <span>Last modified</span>
             <span>Created</span>
-            <span>Active in file</span>
+            <span>Open</span>
           </div>
         ) : null}
-        {visibleProjects.map((project, index) => (
+        {visibleProjects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}
             selected={selectedProject?.id === project.id}
-            onSelect={onSelectProject}
             onOpen={onOpenProject}
             viewMode={viewMode}
-            showActiveUser={index === Math.min(2, visibleProjects.length - 1)}
           />
         ))}
       </div>

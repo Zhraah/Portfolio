@@ -11,7 +11,10 @@ export default function MeetingManagementProjectPage({ project, onBack }) {
       </button>
 
       <div className="project-page-hero">
-        <div className={`project-page-preview ${project.preview ? "has-image" : ""}`}>
+        <div
+          className={`project-page-preview ${project.preview ? "has-image" : ""}`}
+          data-project-hero={project.id}
+        >
           {project.preview ? <img src={project.preview} alt={`${project.title} preview`} /> : null}
         </div>
 

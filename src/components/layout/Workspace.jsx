@@ -21,6 +21,7 @@ function Workspace({
   onOpenProject,
   onCloseProject,
   onPageChange,
+  canvasNavigation,
 }) {
   const workspaceRef = React.useRef(null);
   const [aboutRevealCount, setAboutRevealCount] = React.useState(0);
@@ -130,16 +131,22 @@ function Workspace({
         ) : (
           <>
             <SideRuler scrollTop={rulerScrollTop} />
-            <HomePage
-              aboutRevealCount={aboutRevealCount}
-              selectedProfile={selectedProfile}
-              selectedProject={selectedProject}
-              selectedSkill={selectedSkill}
-              onSelectProfile={onSelectProfile}
-              onSelectProject={onSelectProject}
-              onSelectSkill={onSelectSkill}
-              onOpenProject={onOpenProject}
-            />
+            <div
+              className={`canvas-motion-layer ${canvasNavigation?.active ? "canvas-nav-active" : ""} ${
+                canvasNavigation?.active ? `canvas-nav-${canvasNavigation.direction}` : ""
+              }`}
+            >
+              <HomePage
+                aboutRevealCount={aboutRevealCount}
+                selectedProfile={selectedProfile}
+                selectedProject={selectedProject}
+                selectedSkill={selectedSkill}
+                onSelectProfile={onSelectProfile}
+                onSelectProject={onSelectProject}
+                onSelectSkill={onSelectSkill}
+                onOpenProject={onOpenProject}
+              />
+            </div>
           </>
         )}
       </div>

@@ -15,6 +15,7 @@ export default function SportsAutomationCaseStudy({ onBack }) {
       eyebrow="Mobile product · Operations"
       hero={sportsHero}
       onBack={onBack}
+      projectId="sports-automation"
       title="Sports Automation System"
     >
       <main className="case-content">

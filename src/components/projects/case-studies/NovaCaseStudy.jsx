@@ -26,6 +26,7 @@ export default function NovaCaseStudy({ onBack }) {
       eyebrow="Enterprise product · Design system"
       hero={novaHero}
       onBack={onBack}
+      projectId="nova"
       title="Nova Design System"
     >
       <main className="case-content">

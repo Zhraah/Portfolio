@@ -1,17 +1,5 @@
 import "../../../styles/project-case-studies.css";
 
-function CaseIntro({ eyebrow, title }) {
-  return (
-    <div className="case-intro" aria-hidden="true">
-      <div className="case-intro-copy">
-        <span>{eyebrow}</span>
-        <strong>{title}</strong>
-        <i />
-      </div>
-    </div>
-  );
-}
-
 export function SectionTitle({ children, icon, eyebrow }) {
   return (
     <header className="case-section-title">
@@ -28,18 +16,21 @@ export function CaseImage({ src, alt, className = "" }) {
   return <img className={`case-image ${className}`} src={src} alt={alt} loading="lazy" />;
 }
 
-export function CaseShell({ children, className, eyebrow, hero, onBack, title }) {
+export function CaseShell({ children, className, eyebrow, hero, onBack, projectId, title }) {
   return (
     <article className={`project-case-study ${className}`}>
-      <CaseIntro eyebrow={eyebrow} title={title} />
-
       <div className="case-toolbar">
         <button type="button" className="case-back" onClick={onBack}>
           <span aria-hidden="true">←</span> Back to Work
         </button>
       </div>
 
-      <header className="case-hero" id="case-cover" data-case-anchor="cover">
+      <header
+        className="case-hero"
+        id="case-cover"
+        data-case-anchor="cover"
+        data-project-hero={projectId}
+      >
         <img src={hero} alt="" />
         <div className="case-hero-shade" />
         <div className="case-hero-copy">

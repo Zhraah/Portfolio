@@ -10,6 +10,9 @@ import workListViewIcon from "../../assets/work-icons/list-view.svg";
 import workProjectIcon from "../../assets/work-icons/project-favicon.svg";
 
 function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
+  const categoryLabel = project.details?.Industry ?? project.category ?? "Product Design";
+  const yearLabel = project.details?.Year ?? project.year ?? "—";
+
   function handleOpen(event) {
     if (event.detail > 1) return;
 
@@ -25,17 +28,6 @@ function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
   }
 
   if (viewMode === "list") {
-    const year = Number(project.details?.Year ?? project.year);
-    const yearsAgo = Number.isFinite(year) ? Math.max(0, new Date().getFullYear() - year) : null;
-    const createdLabel = yearsAgo === null
-      ? "—"
-      : yearsAgo === 0
-        ? "This year"
-        : `${yearsAgo} ${yearsAgo === 1 ? "year" : "years"} ago`;
-    const lastModifiedLabel = project.edited?.startsWith("Edited ")
-      ? project.edited.replace(/^Edited\s+/, "")
-      : createdLabel;
-
     return (
       <button
         type="button"
@@ -43,7 +35,7 @@ function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
         onClick={handleOpen}
         data-project-id={project.id}
         data-project-card={project.id}
-        aria-label={`${project.external ? "Open" : "View"} ${project.title}${project.external ? " case study in a new tab" : " project"}`}
+        aria-label={`Open ${project.title}${project.external ? " case study in a new tab" : " project"}`}
       >
         <span className="project-list-name-cell">
           <span
@@ -57,11 +49,8 @@ function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
           </span>
           <strong>{project.title}</strong>
         </span>
-        <span className="project-list-date">{lastModifiedLabel}</span>
-        <span className="project-list-date">{createdLabel}</span>
-        <span className="project-list-action" aria-hidden="true">
-          View <span>{project.external ? "↗" : "→"}</span>
-        </span>
+        <span className="project-list-date">{categoryLabel}</span>
+        <span className="project-list-date">{yearLabel}</span>
       </button>
     );
   }
@@ -73,7 +62,7 @@ function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
       onClick={handleOpen}
       data-project-id={project.id}
       data-project-card={project.id}
-      aria-label={`${project.external ? "Open" : "View"} ${project.title}${project.external ? " case study in a new tab" : " project"}`}
+      aria-label={`Open ${project.title}${project.external ? " case study in a new tab" : " project"}`}
     >
       <div className={`project-preview ${project.preview ? "has-image" : ""}`} data-project-thumbnail>
         {project.preview ? <img src={project.preview} alt={`${project.title} preview`} /> : null}
@@ -84,10 +73,7 @@ function ProjectCard({ project, selected, onOpen, viewMode = "grid" }) {
         </span>
         <span className="project-card-copy">
           <strong>{project.title}</strong>
-          <em>{project.edited}</em>
-        </span>
-        <span className="project-card-kind" aria-hidden="true">
-          View <span>{project.external ? "↗" : "→"}</span>
+          <em>{categoryLabel}</em>
         </span>
       </div>
     </button>
@@ -209,9 +195,8 @@ function WorkCanvas({ selectedProject, onOpenProject }) {
         {viewMode === "list" ? (
           <div className="project-list-header" aria-hidden="true">
             <span>Name</span>
-            <span>Last modified</span>
-            <span>Created</span>
-            <span>Open</span>
+            <span>Category</span>
+            <span>Year</span>
           </div>
         ) : null}
         {visibleProjects.map((project) => (
